@@ -13,6 +13,10 @@
     // 安装npm 插件
     npm install
 
+    // 更新代码
+    git fetch
+    git rebase origin/master
+
 2、开发命令说明
 
     2.1、 初始化cordova 工程
@@ -31,4 +35,8 @@
     setup           初始化模块
     delete          删除文件
     fixed           修复bug
-
+    修改module，common
+    例 add( home ): 增加水平排版文件
+       modified( common.main ): 增加Tab切换；
+    修改其他文件
+    例 modified( config.xml ): 增加AllowInlineMediaPlayback 配置；
