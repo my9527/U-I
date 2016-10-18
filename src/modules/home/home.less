@@ -103,7 +103,12 @@ ul{
 	}
 }
 .dock-fill{
-	
+	width: 100%;
+	overflow-x: hidden;
+	overflow-y: hidden;
+}
+.scroll-y{
+	overflow-y: visible;
 }
 .flex{
 	.flex-layout();
@@ -114,5 +119,32 @@ ul{
 	display: none;
 }
 
+.module-home{
+	width: 100%;
+	position: relative;
+	.m-item{
+		width: 100%;
+		.flex-layout();
+		flex-wrap: wrap;
+	}
+	.m-a{
+		width: 24%;
+		height: 24vw;
+		min-width: 24%;
+		//padding: @normal-padding;
+		line-height: 1;
 
+		border-right: @border;
+		border-bottom: @border;
+		line-height: 24vw;
+		&:nth-child(4n){
+			border-right: none;
+		}
+		&-icon{
+			display: none;
+		}
+
+	}
+
+}
 
