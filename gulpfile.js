@@ -246,13 +246,17 @@ function createApp(){
 }
 // 添加 Android 平台
 function addPlatform(){
-	log.echo("Add Android platform");
+	log("Add Android platform");
 	shell.cd("app");
 	shell.exec("cordova platform add android");
 }
 
 // 替换 cordova应用图标
 function replaceRes(){
+	log("Delete Cordova res");
+	var pwd = shell.pwd();
+	var apk = "/app/platforms/android/res/drawable-land-*";
+	// shell.exec("")
 }
 
 // 合并common 文件
