@@ -204,10 +204,16 @@ gulp.task("buildApp", function(){
 	log("Start build APK ");
 	var pwd = shell.pwd();
 	var apk = "/app/platforms/android/build/outputs/apk";
-	shell.exec("start "+ path.normalize(pwd+apk));
+
+	if(shell.cd(pwd + apk).code !== 0){
+				log("请先添加platform");
+				log("添加命令 gulp addPlatform");
+				shell.exit(1)
+	}
+
+	shell.exec("start "+ path.normalize(pwd+apk))
 	shell.cd("app");
 	shell.exec("cordova build android");
-	log("Finished build APK ");
 	//start E:/my/cordova/app1/app1/platforms/android/build/outputs/apk
 	
 });
@@ -240,10 +246,18 @@ function replaceRes(){
 gulp.task('buildBaseMyLibs', buildBaseMyLibs);
 
 function buildBaseMyLibs(){
-	return gulp.src(config.src.common + "/*.js")
-		.pipe(order([config.src.common+"/main.js", config.src.common+"/*.js"]))
+	return gulp.src("./"+config.src.common + "/*.js")
+		.pipe(order([config.src.common+"/main.js", config.src.common+"/*.js"], {base: '.'}))
 		.pipe(concat("my.js"))
 		.pipe(gulp.dest(config.dist.libs))
+}
+
+gulp.task("copyWWW", copyWWW);
+
+function copyWWW(){
+	log("copy www to app folder");
+	return gulp.src(config.dist.base)
+				.pipe(gulp.dest(config.app.www))
 }
 
 // 初始化cordova 工程
@@ -251,4 +265,4 @@ gulp.task("init-app", runSequence('createApp', 'addPlatform'));
 // 浏览器开发测试
 gulp.task("default", runSequence('clean','getModules','js',['jsLibs', 'buildBaseMyLibs', 'less', 'html', 'buildHOME'], ['watch-modules','serve']));
 // 打包cordova 工程
-gulp.task("build", runSequence('clean','getModules','js',['jsLibs', 'buildBaseMyLibs', 'less', 'html', 'buildHOME'], 'buildApp'));
+gulp.task("build", runSequence('clean','getModules','js',['jsLibs', 'buildBaseMyLibs', 'less', 'html', 'buildHOME'], 'copyWWW', 'buildApp'));
