@@ -1,3 +1,12 @@
+@import "./animate.less";
+
+@animated-duration: 0.5s;
+
+.animated {
+	-webkit-animation-duration: @animated-duration !important;
+	animation-duration: @animated-duration !important;
+}
+
 /*
 常用变量值
 
@@ -11,10 +20,13 @@
 @theme-color: #3BB3C2;
 
 @normal-padding: 1rem;
+
+@border-color: #eaeaea;
+@border: 1px solid @border-color;
 /*
 flex 布局
  */
-.flex-layout{
+.flex-layout(){
 	display: flex;
 	display: -webkit-flex;
 	align-items: center;
@@ -38,9 +50,6 @@ png 背景图标
 	background-position: 50% 50%;
 }
 
-/*
-
- */
 
 
 html{
@@ -50,6 +59,8 @@ body{
 	background: #fff;
 	font-size: @normal-font;
 	color:  @normal-color;
+	padding: 0;
+	margin: 0;
 }
 a{
 	text-decoration: none;
@@ -63,39 +74,21 @@ ul{
 	width: 100%;
 	padding: @normal-padding 0; 
 	.flex-layout();
+	background: @theme-color;
 }
 
 .dock-fill{
 	
 }
-
-
-.videogular-container {
+.flex{
+	position: absolute;
+	bottom: 0;
+	left: 0;
 	width: 100%;
-	height: 320px;
-	margin: auto;
-	overflow: hidden;
+	padding: @normal-padding 0;
+	.flex-layout();
+	border-top: @border;
 }
- 
-@media (min-width: 1200px) {
-	.videogular-container {
-		width: 1170px;
-		height: 658.125px;
-	}
-}
- 
-@media (min-width: 992px) and (max-width: 1199px) {
-	.videogular-container {
-		width: 940px;
-		height: 528.75px;
-	}
-}
- 
-@media (min-width: 768px) and (max-width: 991px) {
-	.videogular-container {
-		width: 728px;
-		height: 409.5px;
-	}
-}
+
 
 

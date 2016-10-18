@@ -33,33 +33,34 @@
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
         <link rel="stylesheet" type="text/css" href="css/style.css">
-        <link rel="stylesheet" type="text/css" href="libs/zy.media.css">
-        <link rel="stylesheet" type="text/css" href="libs/videogular.min.css">
         <title>Hello World</title>
     </head>
     
-    <body ng-controller="myCtrl as myc">
+    <body ng-controller="mainCtrl as mainCtrl">
         <div class="actionbar">
             <div>MY CORDOVA</div>
         </div>
-        <div ng-view></div>
-        
-        <!-- <script type="text/javascript" src="cordova.js"></script> -->
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript" src="libs/angular.js"></script>
-        <script type="text/javascript" src="libs/angular-route.js"></script>
-        <script type="text/javascript" src="libs/angular-sanitize.js"></script>
-        <script type="text/javascript" src="js/testmain.js"></script>
-        <script type="text/javascript" src="js/bus.js"></script>
+        <div ng-view class="app-animate"></div>
 
-        <script src="libs/videogular.min.js"></script>
-        <script src="libs/vg-controls.min.js"></script>
-        <script src="libs/vg-overlay-play.min.js"></script>
-        <script src="libs/vg-poster.min.js"></script>
-        <script src="libs/vg-buffering.min.js"></script>
-        <script src="libs/zy.media.js"></script>
+        <div class="footbar flex">
+            <div>Photo</div>
+            <div>Map</div>
+            <div>Self</div>
+        </div>
+
+<!--   底部actionBar
+
+        <footbar></footbar>
+
+-->
+        <!-- <script type="text/javascript" src="cordova.js"></script> -->
+        <script type="text/javascript" src="libs/baseLibs.js"></script>
+        <script type="text/javascript" src="libs/my.js"></script>
+        <script type="text/javascript" src="js/homemain.js"></script>
+
+
+
 
     </body>
 </html>

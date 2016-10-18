@@ -23,7 +23,7 @@ gulp.task("html", buildHtml);
 gulp.task("less", buildLess);
 
 gulp.task("js", function(){
-	console.log("----------[ Attention ]: Start build js")
+	console.log("----------[ Attention ]: Start build js");
 	var folders = config.args.modules;
 	console.log("----------[ checked ]:"+folders.join("--"));
 	console.log("----------[ checked ]: ./src/modules/"+folders[0]+"/*.js");
@@ -39,7 +39,7 @@ gulp.task('jsLibs', buildLibs);
  */
 gulp.task('clean', function(){
 	del(config.dist.base+"/**/*.*")
-})
+});
 
 /**
  * 构建首页
@@ -88,7 +88,7 @@ gulp.task("watch-modules", function(){
 	gulp.watch("src/modules/**", function(e){
 		
 		//获取文件类型
-		var pathname = ""
+		var pathname = "";
 		var fileType = path.extname(e.path) || "";
 		var _moduleFile = path.relative('./src/modules', e.path);
 		var changedModule = _moduleFile.split("\\")[0] || "";
@@ -122,7 +122,7 @@ gulp.task("watch-modules", function(){
 		// console.log()
 	})
 		
-})
+});
 
 
 // 单独生成该模块的mainjs
@@ -130,7 +130,7 @@ gulp.task("watch-modules", function(){
 function buildjs(folder, folders){
 	return	gulp.src('./src/modules/'+folder+"/*.js")
 			.pipe(concat(folder+"main.js"))
-			.pipe(gulp.dest('./app1/www/js/'))
+			.pipe(gulp.dest(config.dist.js))
 			.on("end", function(){
 				console.log("----------[ Attention ]: "+folder+" finished")
 				if(folders.length){
@@ -190,31 +190,65 @@ function buildLibs(){
 
 function buildHomeHTML(){
 	return gulp.src("./src/modules/index/index.html")
-				.pipe(gulp.dest('./app1/www'))
+				.pipe(gulp.dest(config.dist.base))
 }
 
 function transferHTML(module, file){
 
 	return gulp.src('./src/modules/index/index.html')
-				.pipe(gulp.dest('./app1/www/'))
+				.pipe(gulp.dest(config.dist.base))
 }
 
-
-gulp.task("build", function(){
+// 打包cordova 工程
+gulp.task("buildApp", function(){
 	log("Start build APK ");
 	var pwd = shell.pwd();
-	var apk = "/app1/platforms/android/build/outputs/apk";
+	var apk = "/app/platforms/android/build/outputs/apk";
 	shell.exec("start "+ path.normalize(pwd+apk));
-	shell.cd("app1");
+	shell.cd("app");
 	shell.exec("cordova build android");
 	log("Finished build APK ");
 	//start E:/my/cordova/app1/app1/platforms/android/build/outputs/apk
 	
-})
+});
 
 function log(msg){
 	return console.log("---------[ Attention ]: " + msg);
 }
 
 
-gulp.task("default", runSequence('clean','getModules','js',['jsLibs', 'less', 'html', 'buildHOME'], ['watch-modules','serve']))
+gulp.task("createApp", createApp);
+gulp.task("addPlatform", addPlatform);
+
+// 初始化 cordova 工程
+function createApp(){
+	log("Init cordova project");
+	shell.exec("cordova create app app.my.app app");
+}
+// 添加 Android 平台
+function addPlatform(){
+	log.echo("Add Android platform");
+	shell.cd("app");
+	shell.exec("cordova platform add android");
+}
+
+// 替换 cordova应用图标
+function replaceRes(){
+}
+
+// 合并common 文件
+gulp.task('buildBaseMyLibs', buildBaseMyLibs);
+
+function buildBaseMyLibs(){
+	return gulp.src(config.src.common + "/*.js")
+		.pipe(order([config.src.common+"/main.js", config.src.common+"/*.js"]))
+		.pipe(concat("my.js"))
+		.pipe(gulp.dest(config.dist.libs))
+}
+
+// 初始化cordova 工程
+gulp.task("init-app", runSequence('createApp', 'addPlatform'));
+// 浏览器开发测试
+gulp.task("default", runSequence('clean','getModules','js',['jsLibs', 'buildBaseMyLibs', 'less', 'html', 'buildHOME'], ['watch-modules','serve']));
+// 打包cordova 工程
+gulp.task("build", runSequence('clean','getModules','js',['jsLibs', 'buildBaseMyLibs', 'less', 'html', 'buildHOME'], 'buildApp'));

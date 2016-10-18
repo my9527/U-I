@@ -8,16 +8,17 @@ var config = {
 		js: './src/**/*.js',
 		html: './src/**/*.html',
 		less: './src/**/*.less',
-		libs: './src/libs/*.js'
+		libs: './src/libs/*.js',
+		common: 'src/common'
 	},
 
 	dist: {
-		base: './app1/www/',
+		base: './app/www/',
 
-		html: './app1/www/html',
-		js: './app1/www/js',
-		css: './app1/www/css',
-		libs: './app1/www/libs'
+		html: './app/www/html',
+		js: './app/www/js',
+		css: './app/www/css',
+		libs: './app/www/libs'
 	},
 
 	args:{
@@ -26,9 +27,9 @@ var config = {
 
 	server: {
 		port: 3000,
-		root: './app1/www'
+		root: './app/www'
 		
 	}
 
-}
+};
 module.exports = config;
