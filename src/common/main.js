@@ -5,7 +5,8 @@ angular
 		"module.home",
 		"common.myGlobal",
 		"common.routes",
-		"common.myLoader"
+		"common.myLoader",
+		"module.splash"
     ])
 
     .run([
@@ -15,7 +16,8 @@ angular
 		"myGLOBAL",
     	function($location, $rootScope, $q, myGLOBAL){
 
-		console.log("myGLOBAL: " , myGLOBAL)
+		console.log("myGLOBAL: " , myGLOBAL);
+
     	$location.path("/home");
     	//检查是否已经加载过模块
     	$rootScope.$on("$routeChangeStart", function(evt, next, cur){
@@ -36,6 +38,10 @@ angular
 
 			init();
 			function init(){
+
+				view.status = {
+					pageShow: false
+				};
 				view.tabs = [
 					{
 						id: 0,
@@ -63,6 +69,10 @@ angular
 					}
 				];
 				activeTab(view.tabs[0]);
+
+				$timeout(function(){
+					view.pageShow = true;
+				})
 			}
 
 			function activeTab(tab){
