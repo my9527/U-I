@@ -1,7 +1,7 @@
 /**
  * Created by my on 2016/10/18.
  */
- var app = angular.module("myApp")
+ var app = angular.module("common.myLoader", ["ngRoute"])
 app.config(function($routeProvider, $controllerProvider, $compileProvider, $filterProvider, $provide)
         {
 
@@ -19,33 +19,40 @@ app.config(function($routeProvider, $controllerProvider, $compileProvider, $filt
         "ROUTES",
         function ($routeProvider, ROUTES) {
             console.log(ROUTES);
-            (function(){
-                var routes = [];
-                return ROUTES.forEach(function(item, index){
-                    console.log(item)
-                    $routeProvider
-                        .when(item.url, {
-                            controller: item.ctrl,
-                            controllerAs: item.ctrlAs,
-                            templateUrl: item.tmp,
-                            resolve: {
-                                // console.log("This is resolve")
-                                loadModule: ["$q","$timeout",  function($q, $timeout){
-                                    var d = $q.defer();
-
-                                    loadModules(item.name, $timeout, $q)
-                                        .then(function(){
-                                            routes.push(item.name);
-                                            d.resolve();
-                                        });
-
-                                    return d.promise;
-
-                                }]
-                            }
-                        })
-                });
+            var routes = (function(){
+                // 定义一个闭包变量用于保存已经加载的路由
+                var routes = ["home"];
+                return  routes;
             })();
+
+            ROUTES.forEach(function(item, index){
+                console.log(item)
+                $routeProvider
+                    .when(item.url, {
+                        controller: item.ctrl,
+                        controllerAs: item.ctrlAs,
+                        templateUrl: item.tmp,
+                        resolve: {
+                            // console.log("This is resolve")
+                            loadModule: ["$q","$timeout", "$rootScope", function($q, $timeout, $rootScope){
+                                var d = $q.defer();
+                                if(routes.indexOf(item.name) != -1){
+                                    d.resolve();
+                                    return d.promise;
+                                }
+                                loadModules(item.name, $timeout, $q)
+                                    .then(function(){
+                                        routes.push(item.name);
+                                        d.resolve();
+                                    });
+
+                                return d.promise;
+
+                            }]
+                        }
+                    })
+            });
+
 
 
             function loadModules(module, $timeout, $q){
@@ -73,7 +80,7 @@ app.config(function($routeProvider, $controllerProvider, $compileProvider, $filt
 
             }
     }])
-.config([
+    .config([
     "$injector",
     "$controllerProvider",
     "$compileProvider",

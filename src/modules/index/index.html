@@ -43,10 +43,14 @@
         </div>
         <div ng-view class="app-animate"></div>
 
-        <div class="footbar flex">
-            <div><a href="#/food">Photo</a></div>
-            <div><a href="#/home">Map</a></div>
-            <div>Self</div>
+        <div class="footbar flex text-center">
+            <a ng-click="tab.func(tab)"
+               ng-repeat="tab in mainCtrl.tabs"
+               class="footbar-item"
+               ng-class="{'active': tab.active}"
+               ng-href="{{tab.url}}">
+                {{tab.name}}
+            </a>
         </div>
 
 <!--   底部actionBar
@@ -57,7 +61,7 @@
         <!-- <script type="text/javascript" src="cordova.js"></script> -->
         <script type="text/javascript" src="libs/baseLibs.js"></script>
         <script type="text/javascript" src="libs/my.js"></script>
-        <script type="text/javascript" src="js/homemain.js"></script>
+        <script src="js/homemain.js"></script>
 
 
 

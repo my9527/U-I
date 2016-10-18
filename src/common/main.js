@@ -4,7 +4,8 @@ angular
 		"ngAnimate",
 		"module.home",
 		"common.myGlobal",
-		"common.routes"
+		"common.routes",
+		"common.myLoader"
     ])
 
     .run([
@@ -18,57 +19,12 @@ angular
     	$location.path("/home");
     	//检查是否已经加载过模块
     	$rootScope.$on("$routeChangeStart", function(evt, next, cur){
-
-
-
-/*    		var pathname;
-			if(next){
-				pathname = next.$$route;
+    		var route = next && next.$$route;
+    		if(!route){
+				return $location.path("/home");
 			}
-			console.log(pathname);
-    		if(!pathname){
-    			return $location.url("/home");
-    		}
-    		//检查相应模块是否加载，若是已经加载，则直接进入，否则先
-    		//加载模块js
-    		
-    		var module = pathname.originalPath.split("/")[1];
-			console.log(myGLOBAL)
-
-    		if(-1 == myGLOBAL.modules.indexOf(module)){
-				evt.preventDefault();
-				loadModules(module)
-					.then(function(res){
-						myGLOBAL.modules.push(module);
-						$location.path(next.$$route.originalPath);
-					}, function(){
-						$location.url("/home");
-					})
-    		}else{
-    			// $location.path(next.$$route.originalPath);
-    		}*/
     	});
-    	function loadModules(module){
-    		var defer = $q.defer();
 
-    		var script = document.createElement('script');
-    		script.src = "js/"+module+"main.js";
-
-    		document.body.appendChild(script);
-
-    		script.onload = function(){
-    			defer.resolve();
-    			$timout(function(){
-    				document.body.removeChild(script);
-    				script.onload = null;
-    				script = null;
-    			},10)
-    		};
-    		script.onerror = function(err){
-    			defer.reject(err);
-    		};
-    		return defer.promise;
-    	}
     }])
  
     .controller("mainCtrl",[
@@ -77,6 +33,51 @@ angular
         "$timeout",
         function($scope, $location, $timeout){
             var view = this;
+
+			init();
+			function init(){
+				view.tabs = [
+					{
+						id: 0,
+						name: "home",
+						icon: "fa fa-home",
+						url: "#/home",
+						func: activeTab,
+						active: false
+					},
+					{
+						id: 1,
+						name: "food",
+						icon: "fa fa-food",
+						url: "#/food",
+						func: activeTab,
+						active: false
+					},
+					{
+						id: 2,
+						name: "map",
+						icon: "fa fa-map",
+						url: "#/map",
+						func: activeTab,
+						active: false
+					}
+				];
+				activeTab(view.tabs[0]);
+			}
+
+			function activeTab(tab){
+				if(!tab.url){
+					return
+				}
+				view.curTab = tab;
+				view.tabs.forEach(function(item, index){
+					item.active = false;
+					if(item.id == tab.id){
+						item.active = true;
+					}
+				})
+
+			}
 
         }
     ])
