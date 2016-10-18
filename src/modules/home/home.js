@@ -4,14 +4,14 @@ angular
 		"ngRoute",
 		"ngSanitize"
 		])
-	.config(["$routeProvider", function($routeProvider){
-		$routeProvider
-			.when("/home", {
-				controller: "homeCtrl",
-				controllerAs: "myc",
-				templateUrl: "html/home/main.html"
-			})
-	}])
+	// .config(["$routeProvider", function($routeProvider){
+	// 	$routeProvider
+	// 		.when("/home", {
+	// 			controller: "homeCtrl",
+	// 			controllerAs: "hc",
+	// 			templateUrl: "html/home/main.html"
+	// 		})
+	// }])
   .directive("zyMedia",[
       function(){
 

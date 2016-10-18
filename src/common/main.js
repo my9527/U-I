@@ -2,19 +2,29 @@ angular
     .module("myApp", [
     	"ngRoute",
 		"ngAnimate",
-		"module.home"
+		"module.home",
+		"common.myGlobal",
+		"common.routes"
     ])
+
     .run([
     	"$location",
     	"$rootScope",
     	"$q",
-    	function($location, $rootScope, $q){
+		"myGLOBAL",
+    	function($location, $rootScope, $q, myGLOBAL){
 
-
+		console.log("myGLOBAL: " , myGLOBAL)
     	$location.path("/home");
     	//检查是否已经加载过模块
-    	/*$rootScope("$routeChangeStart", function(evt, next, cur){
-    		var pathname = next.$$route;
+    	$rootScope.$on("$routeChangeStart", function(evt, next, cur){
+
+
+
+/*    		var pathname;
+			if(next){
+				pathname = next.$$route;
+			}
 			console.log(pathname);
     		if(!pathname){
     			return $location.url("/home");
@@ -22,26 +32,27 @@ angular
     		//检查相应模块是否加载，若是已经加载，则直接进入，否则先
     		//加载模块js
     		
-    		var module = pathname.split("/")[0]
+    		var module = pathname.originalPath.split("/")[1];
+			console.log(myGLOBAL)
 
-    // 		if(!MC_GLOBAL.modules[module]){
-				// loadModules()
-				// 	.then(function(res){
-				// 		MC_GLOBAL.modules.push(module)
-				// 		// $location.path(next.$$route);
-				// 	}, function(){
-				// 		// $location.url("/home");
-				// 	})
-    // 		}else{
-    // 			$location.path(next.$$route);
-    // 		}
-    	});*/
-/*
+    		if(-1 == myGLOBAL.modules.indexOf(module)){
+				evt.preventDefault();
+				loadModules(module)
+					.then(function(res){
+						myGLOBAL.modules.push(module);
+						$location.path(next.$$route.originalPath);
+					}, function(){
+						$location.url("/home");
+					})
+    		}else{
+    			// $location.path(next.$$route.originalPath);
+    		}*/
+    	});
     	function loadModules(module){
     		var defer = $q.defer();
 
     		var script = document.createElement('script');
-    		script.src = module;
+    		script.src = "js/"+module+"main.js";
 
     		document.body.appendChild(script);
 
@@ -57,7 +68,7 @@ angular
     			defer.reject(err);
     		};
     		return defer.promise;
-    	}*/
+    	}
     }])
  
     .controller("mainCtrl",[
@@ -132,3 +143,4 @@ angular
 	])
 
 ;
+

@@ -38,8 +38,12 @@ gulp.task('jsLibs', buildLibs);
  * @return {[type]}      [description]
  */
 gulp.task('clean', function(){
-	del(config.dist.base+"/**/*.*")
+	del(config.dist.base+"/**/*");
 });
+
+gulp.task('clean:app', function(){
+	del(config.app.www + "/**/*");
+})
 
 /**
  * 构建首页
@@ -56,7 +60,7 @@ gulp.task('getModules', function(){
 	console.log("----------[ Attention ]: Get modules names");
 	// console.log(config.src)
 	return gulp
-			.src(['src/modules/**/*.*'])
+			.src([config.src.modules])
 			.pipe(through2.obj(function(file, enc, cb){
 				var filename = file.relative.split('\\');
 				// console.log(filename);
@@ -84,7 +88,7 @@ gulp.task("serve", function(){
 // 监测改动文件，执行相应的操作
 // 
 // 
-gulp.task("watch-modules", function(){
+gulp.task("watch:modules", function(){
 	gulp.watch("src/modules/**", function(e){
 		
 		//获取文件类型
@@ -92,8 +96,11 @@ gulp.task("watch-modules", function(){
 		var fileType = path.extname(e.path) || "";
 		var _moduleFile = path.relative('./src/modules', e.path);
 		var changedModule = _moduleFile.split("\\")[0] || "";
-		console.log("----------[ Attention ]: "+_moduleFile+"changed");
-		console.log("----------[ Attention ]: Start build"+fileType.slice(1))
+		if(!changedModule){
+			return
+		}
+		// console.log("----------[ Attention ]: "+_moduleFile+" changed");
+		console.log("----------[ Attention ]: Start build "+changedModule);
 
 		if(!fileType || !changedModule){
 			return console.log("[ Attention ]: Not found the file");
@@ -101,7 +108,7 @@ gulp.task("watch-modules", function(){
 
 		switch(fileType){
 			case '.js': {
-					buildjs(changedModule, [])
+					buildjs(changedModule, []);
 				break;
 			}
 			case '.html': {
@@ -113,7 +120,7 @@ gulp.task("watch-modules", function(){
 				break;
 			}
 			case '.less': {
-					buildLess()
+					buildLess();
 				break;
 			}
 		}
@@ -124,6 +131,12 @@ gulp.task("watch-modules", function(){
 		
 });
 
+
+gulp.task("watch:common", function(){
+	gulp.watch(config.src.common+"/*.js", function (e) {
+		buildBaseMyLibs();
+	})
+});
 
 // 单独生成该模块的mainjs
 // 然后合并成为 business.js
@@ -246,23 +259,25 @@ function replaceRes(){
 gulp.task('buildBaseMyLibs', buildBaseMyLibs);
 
 function buildBaseMyLibs(){
+	log("build common js");
 	return gulp.src("./"+config.src.common + "/*.js")
 		.pipe(order([config.src.common+"/main.js", config.src.common+"/*.js"], {base: '.'}))
 		.pipe(concat("my.js"))
 		.pipe(gulp.dest(config.dist.libs))
 }
 
+// 拷贝www 目录至 app/www, 进行打包
 gulp.task("copyWWW", copyWWW);
 
 function copyWWW(){
 	log("copy www to app folder");
-	return gulp.src(config.dist.base)
+	return gulp.src(config.dist.base+"/**/*")
 				.pipe(gulp.dest(config.app.www))
 }
 
 // 初始化cordova 工程
 gulp.task("init-app", runSequence('createApp', 'addPlatform'));
 // 浏览器开发测试
-gulp.task("default", runSequence('clean','getModules','js',['jsLibs', 'buildBaseMyLibs', 'less', 'html', 'buildHOME'], ['watch-modules','serve']));
+gulp.task("default", runSequence('clean','getModules','js',['jsLibs', 'buildBaseMyLibs', 'less', 'html', 'buildHOME'], ['watch:modules', 'watch:common', 'serve']));
 // 打包cordova 工程
-gulp.task("build", runSequence('clean','getModules','js',['jsLibs', 'buildBaseMyLibs', 'less', 'html', 'buildHOME'], 'copyWWW', 'buildApp'));
+gulp.task("build", runSequence(['clean','clean:app'],'getModules','js',['jsLibs', 'buildBaseMyLibs', 'less', 'html', 'buildHOME'], 'copyWWW', 'buildApp'));
