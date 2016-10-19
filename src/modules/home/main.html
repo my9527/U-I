@@ -4,10 +4,13 @@
 	</banner>
 
 	<div class="m-item" >
-		<a ng-click="hc.open(m.url)" class="m-a text-center" ng-repeat="m in hc.modules track by $index">
-			<i class="m-a-icon icon fa {{m.icon}}"></i>
-			<span>{{m.name}}</span>
-		</a>
+		<div ng-click="hc.open(m.url)" class="m-outer text-center" ng-repeat="m in hc.modules track by $index">
+            <a class="m-inner">
+                <div><i class="m-a-icon icon fa {{m.icon}}"></i></div>
+                <div><span>{{m.name}}</span></div>
+            </a>
+
+		</div>
 	</div>
 </div>
 

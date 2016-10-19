@@ -127,16 +127,14 @@ ul{
 		.flex-layout();
 		flex-wrap: wrap;
 	}
-	.m-a{
-		width: 24%;
-		height: 24vw;
-		min-width: 24%;
+	.m-outer{
+		width: 25%;
+		height: 25vw;
+		min-width: 25%;
 		//padding: @normal-padding;
 		line-height: 1;
-
-		border-right: @border;
 		border-bottom: @border;
-		line-height: 24vw;
+		line-height: 25vw;
 		&:nth-child(4n){
 			border-right: none;
 		}
@@ -148,6 +146,9 @@ ul{
 			display: none;
 		}
 
+	}
+	.m-inner{
+		border-right: @border;
 	}
 
 }
