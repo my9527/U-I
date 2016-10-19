@@ -89,9 +89,9 @@ angular
         "myGLOBAL",
         "$rootScope",
         function (myGLOBAL, $rootScope) {
-            this.alert = utilAlert;
+            this.notice = utilnotice;
 
-            function utilAlert(msg, type){
+            function utilnotice(msg, type){
                 msg = msg?msg:"";
                 type = type?type:"short";
 

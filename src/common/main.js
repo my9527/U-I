@@ -15,7 +15,8 @@ angular
     	"$rootScope",
     	"$q",
 		"myGLOBAL",
-    	function($location, $rootScope, $q, myGLOBAL){
+        "$timeout",
+    	function($location, $rootScope, $q, myGLOBAL, $timeout){
 
 		console.log("myGLOBAL: " , myGLOBAL);
 
@@ -27,6 +28,31 @@ angular
 				return $location.path("/home");
 			}
     	});
+        /*$rootScope.$on("$routeChangeStart", function(evt, next, cur){
+            var excludeRoute = ["/home"];
+            var route = next && next.$$route;
+            if(!route )return;
+            var url = next.$$route.originalPath;
+            var ele = angular.element(document.querySelector("#footbar"));
+            if(-1 == excludeRoute.indexOf(url)){
+
+                ele.addClass("fadeOutDown");
+                $timeout(function(){
+                    ele.removeClass("fadeOutDown");
+                    ele.css("display", "none");
+                },100);
+            }else{
+                if(cur && excludeRoute.indexOf(cur.$$route.originalPath)!=-1){
+
+                }else{
+                    ele.css("display", "");
+                    ele.addClass("fadeInUp");
+                    $timeout(function(){
+                        ele.removeClass("fadeOutDown");
+                    },100);
+                }
+            }
+        });*/
 
     }])
  
@@ -76,7 +102,7 @@ angular
 				$timeout(function(){
 					view.pageShow = true;
 				});
-				utils.alert("Hello Cordova");
+				utils.notice("Hello Cordova");
 				view.alerts = myGLOBAL.alerts;
 
 			}
@@ -155,6 +181,110 @@ angular
 						done();
 					}, animatedDuration);
 				}
+			}
+		}
+	])
+    .animation(".footbar-animate", [
+        "$timeout",
+        "$route",
+         function($timeout, $route){
+             var
+                 flagStack = [""],
+                 isBack,
+                 excludeRoute = ["/home"],
+
+                 // enterClass = ["slideInRight", "slideInLeft"],
+                 enterClass = ["fadeInUp", "fadeInDown"],
+                 leaveClass = ["fadeOutDown", "fadeOutUp"],
+
+                 animatedDuration = 500
+                 ;
+
+             return{
+                 enter: function(ele, done){
+                     var _currentFlag = $route.current.$$route.originalPath;
+                     var _nextFlag = $route.current.$$route.originalPath;
+                     var className = enterClass[0];
+                         if(-1 == excludeRoute.indexOf(_currentFlag)){
+                             isBack = false;
+                             elem.addClass("animated");
+                             elem.addClass(className);
+
+                             $timeout(function(){
+                                 done();
+                                 elem.removeClass(className);
+                                 elem.removeClass("animated");
+                             }, animatedDuration);
+                         }
+
+                 },
+                 leave: function(ele, done){
+                     elem.addClass(isBack ? leaveClass[1] : leaveClass[0]);
+                     elem.addClass("animated");
+
+                     $timeout(function(){
+                         done();
+                     }, animatedDuration);
+                 }
+             }
+         }
+    ])
+
+	.directive("animateBar", [
+		"$window",
+		"$rootScope",
+		"$location",
+		"$timeout",
+		function($window, $rootScope, $location, $timeout){
+			function link($scope, $ele, $attr){
+				var _animateClass = ["fadeInUp", "fadeOutDown", "fadeInDown", "fadaOutUp"];
+				var animateClass = $attr["isTop"]=="true"?_animateClass.slice(0,2):_animateClass.slice(2,2);
+				var excludeRoute = ["/home", "/food"];
+				var animateDurition = 500;
+				var animateCommonClass = "bar-animate";
+
+				$rootScope.$on("$routeChangeStart", function(evt, next, cur){
+					var _nextRoute;
+					var _curRoute;
+					// 处理离开主页
+					if(next && next.$$route && cur && cur.$$route){
+						var isToMainView = -1 == excludeRoute.indexOf(next.$$route.originalPath);
+						var isFromMainView = -1 == excludeRoute.indexOf(cur.$$route.originalPath);
+					 	 !isToMainView && isFromMainView && enter();
+						 isToMainView && !isFromMainView && leave();
+
+					}
+				});
+				// 之后监听滚动
+				$rootScope.$on("scrollDown", enter);
+				$rootScope.$on("scrollUp", leave);
+
+
+
+				function leave() {
+					$ele.addClass(animateClass[0]);
+					$ele.addClass(animateCommonClass);
+					$timeout(function(){
+						$ele.removeClass(animateClass[0]);
+						$ele.removeClass(animateCommonClass);
+						$ele.css("display", "none");
+					},100)
+				}
+				
+				function enter() {
+					$ele.css("display", "");
+					$ele.addClass(animateClass[1]);
+					$ele.addClass(animateCommonClass);
+					$timeout(function(){
+						$ele.removeClass(animateClass[1]);
+						$ele.removeClass(animateCommonClass);
+
+					}, 80)
+				}
+			}
+
+			return{
+				link: link
 			}
 		}
 	])

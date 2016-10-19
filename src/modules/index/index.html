@@ -39,13 +39,13 @@
     
     <body ng-controller="mainCtrl as mainCtrl">
 
-        <div class="actionbar">
+        <div class="actionbar" animate-bar isTop="true">
             <div>MY CORDOVA</div>
         </div>
         <div ng-view class="app-animate"></div>
 
         <!-- 待分离成组件 -->
-        <div id="footbar" class="footbar flex text-center footbar-animate">
+        <div id="footbar" animate-bar isTop="false" class="footbar flex text-center footbar-animate">
             <a ng-click="tab.func(tab)"
                ng-repeat="tab in mainCtrl.tabs"
                class="footbar-item"

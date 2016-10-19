@@ -13,10 +13,10 @@ angular
                 open: open
             };
 
-            function open(url, type, callback){
+            function open(url, type, errCallback){
                 type = !type?0:type;
                 if(!url){
-                    return callback && callback.call();
+                    return errCallback && errCallback.call();
                 }
                 switch (type){
                     case 0: {

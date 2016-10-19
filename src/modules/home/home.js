@@ -23,7 +23,9 @@ angular
             init();
 
             view.open = function(url){
-                myGLOBAL.open(url, null, utils.alert("努力开发中..."))
+                myGLOBAL.open(url, null, function(){
+                    utils.notice("努力开发中...");
+                })
             };
 
             function init() {
