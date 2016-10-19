@@ -14,7 +14,7 @@ angular
             };
 
             function open(url, type, callback){
-                type = typeof type == undefined?0:type;
+                type = !type?0:type;
                 if(!url){
                     return callback && callback.call();
                 }

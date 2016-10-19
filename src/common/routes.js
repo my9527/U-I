@@ -18,6 +18,12 @@ angular
             tmp: "html/food/main.html",
             ctrl: "foodCtrl",
             ctrlAs: "fc"
+        },{
+            url: "/map",
+            name: "map",
+            tmp: "html/map/map.html",
+            ctrl: "mapCtrl",
+            ctrlAs: "mc"
         }
     ])
     .value("LoadedModules", [])

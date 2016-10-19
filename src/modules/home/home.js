@@ -11,18 +11,6 @@ angular
     // 			templateUrl: "html/home/main.html"
     // 		})
     // }])
-    .directive("zyMedia", [
-        function () {
-
-            function link($scope, $ele) {
-                console.log("this is a directive")
-            }
-
-            return {
-                link: link
-            }
-        }
-    ])
     .controller("homeCtrl", [
         "$scope",
         "$sce",
@@ -58,6 +46,10 @@ angular
                 },{
                     name: "数码",
                     url: "",
+                    icon: 'fa fa-tech'
+                },{
+                    name: "地图",
+                    url: "/map",
                     icon: 'fa fa-tech'
                 }];
 
