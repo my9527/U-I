@@ -1,0 +1,32 @@
+@font-size:1.1rem;
+@theme-color: #3BB3C2;
+@normal-padding: 1rem;
+.my-alerts{
+  width: 100%;
+  position: absolute;
+  bottom: 2em;
+  left: 0;
+  z-index: 101;
+  text-align: center;
+  color: #ffffff;
+  .alerts-item{
+    position: relative;
+    display: block;
+    //width: 100%;
+    text-align: center;
+    overflow: hidden;
+    padding: @normal-padding 0;
+    .msg{
+      padding: @normal-padding;
+      background: @theme-color*0.5;
+      border-radius: 10px;
+
+    }
+    .short-msg{
+      max-width: 8em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
