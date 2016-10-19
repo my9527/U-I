@@ -2,10 +2,11 @@ angular
     .module("myApp", [
     	"ngRoute",
 		"ngAnimate",
-		"module.home",
 		"common.myGlobal",
 		"common.routes",
 		"common.myLoader",
+		"common.utils",
+		"module.home",
 		"module.splash"
     ])
 
@@ -33,7 +34,9 @@ angular
         "$scope",
         "$location",
         "$timeout",
-        function($scope, $location, $timeout){
+		"myGLOBAL",
+		"utils",
+        function($scope, $location, $timeout, myGLOBAL, utils){
             var view = this;
 
 			init();
@@ -63,7 +66,7 @@ angular
 						id: 2,
 						name: "map",
 						icon: "fa fa-map",
-						url: "#/map",
+						url: "",
 						func: activeTab,
 						active: false
 					}
@@ -72,7 +75,10 @@ angular
 
 				$timeout(function(){
 					view.pageShow = true;
-				})
+				});
+				utils.alert("Hello Cordova");
+				view.alerts = myGLOBAL.alerts;
+
 			}
 
 			function activeTab(tab){

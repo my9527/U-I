@@ -4,11 +4,33 @@
 angular
     .module("common.myGlobal", [])
     .factory("myGLOBAL", [
-        function () {
+        "$window",
+        "$location",
+        function ($window, $location) {
             var myGLOBAL = {
-                modules: ["home"]
+                modules: ["home"],
+                alerts : [],
+                open: open
             };
 
+            function open(url, type, callback){
+                type = typeof type == undefined?0:type;
+                if(!url){
+                    return callback && callback.call();
+                }
+                switch (type){
+                    case 0: {
+                        $location.path(url);
+                        break;
+                    }
+                    case 1: {
+                        break
+                    }
+                    default: {
+
+                    }
+                }
+            }
             return myGLOBAL;
 
         }
