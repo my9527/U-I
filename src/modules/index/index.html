@@ -17,7 +17,7 @@
     specific language governing permissions and limitations
     under the License.
 -->
-<html ng-app="myApp">
+<html>
     <head>
         <!--
         Customize this policy to fit your own app's needs. For more guidance, see:
@@ -38,7 +38,7 @@
     </head>
     
     <body ng-controller="mainCtrl as mainCtrl">
-        <div  my-splash></div>
+
         <div class="actionbar">
             <div>MY CORDOVA</div>
         </div>
@@ -59,14 +59,21 @@
         <footbar></footbar>
 
 -->
+        <!-- splash -->
+        <div  my-splash></div>
+
+        <!-- utils alerts -->
+        <div class="my-alerts" my-alerts alerts="mainCtrl.alerts">
+            <div class="alerts-item" ng-repeat="alert in alerts">
+                <span class="msg short-msg">{{alert.msg}}</span>
+            </div>
+        </div>
         <!-- <script type="text/javascript" src="cordova.js"></script> -->
         <script type="text/javascript" src="libs/baseLibs.js"></script>
         <script type="text/javascript" src="libs/my.js"></script>
+        <script src="js/indexmain.js"></script>
         <script src="js/splashmain.js"></script>
         <script src="js/homemain.js"></script>
-
-
-
 
     </body>
 </html>

@@ -1,11 +1,10 @@
 <div class="dock-fill module-home">
 
 	<banner>
-
 	</banner>
 
 	<div class="m-item" >
-		<a ng-href="{{m.url}}" class="m-a text-center" ng-repeat="m in hc.modules track by $index">
+		<a ng-click="hc.open(m.url)" class="m-a text-center" ng-repeat="m in hc.modules track by $index">
 			<i class="m-a-icon icon fa {{m.icon}}"></i>
 			<span>{{m.name}}</span>
 		</a>

@@ -27,31 +27,37 @@ angular
         "$scope",
         "$sce",
         "$timeout",
-        function ($scope, $sce, $timeout) {
+        "myGLOBAL",
+        "utils",
+        function ($scope, $sce, $timeout, myGLOBAL, utils) {
             var view = this;
 
             init();
 
+            view.open = function(url){
+                myGLOBAL.open(url, null, utils.alert("努力开发中..."))
+            };
+
             function init() {
                 view.modules = [{
                     name: "吃货",
-                    url: "/foodJunkie",
+                    url: "",
                     icon: 'fa fa-food'
                 },{
                     name: "游玩",
-                    url: "/tour",
+                    url: "",
                     icon: 'fa fa-tour'
                 },{
                     name: "电影",
-                    url: "/movies",
+                    url: "",
                     icon: 'fa fa-movies'
                 },{
                     name: "服装",
-                    url: "/clothes",
+                    url: "",
                     icon: 'fa fa-clothes'
                 },{
                     name: "数码",
-                    url: "/hightech",
+                    url: "",
                     icon: 'fa fa-tech'
                 }];
 
@@ -59,6 +65,11 @@ angular
 
             }
 
+
+            /**
+             * 补充空白应用，保持UI 布局
+             * @param modules
+             */
             function addEmptyModule(modules){
                 var emptyNum = modules.length%4;
                 console.log("需添加："+(4-emptyNum));

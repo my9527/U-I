@@ -13,11 +13,13 @@ angular
         "$window",
         "$timeout",
         "$location",
-        function($window, $timeout, $location){
+        "utils",
+        function($window, $timeout, $location, utils){
             var t = null;
             function link($scope, $ele){
                 $timeout(function(){
-                    $ele.css("display", "none")
+                    $ele.css("display", "none");
+                    utils.alert("Loading finished");
                 }, 3000)
             }
             function compile(ele, attr){
