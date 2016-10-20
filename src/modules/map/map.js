@@ -31,35 +31,24 @@ angular
 
 				var icon = angular.element(_icon);
 				icon.addClass("map-geo");
+				// icon.addClass("")
 				icon.addClass("animated")
 
-				icon.bind("click", function(){
-					icon.addClass("bounce-icon");
-					console.log("click icon")
-					$timeout(function () {
-						icon.removeClass("bounce-icon");
-					},1000)
-				})
-				// icon.addClass("bar-animate");
 				// 添加地图拖动事件，对 icon 进行class 的操作
 				map.addEventListener("dragstart", function(){
-					// var center = map.getCenter();
-					// console.log("地图开始拖动");
+					console.log("地图开始拖动");
 					icon.addClass("my-map-drag");
 				});
 				map.addEventListener("dragend", function(){
-					// console.log("地图结束拖动");
-					icon.removeClass("my-map-drag");
+
 					icon.addClass("bounce-icon");
-					console.log("click icon")
+					var center = map.getCenter();
+						console.log("当前中心：",center)
 					$timeout(function () {
+						icon.removeClass("my-map-drag");
 						icon.removeClass("bounce-icon");
-					},1000)
+					},800)
 				});
-
-
-
-
 
 				// return function(){
 				// 	return{
