@@ -75,7 +75,7 @@ angular
 					{
 						id: 0,
 						name: "home",
-						icon: "fa fa-home",
+						icon: "my-icon-home",
 						url: "#/home",
 						func: activeTab,
 						active: false
@@ -83,7 +83,7 @@ angular
 					{
 						id: 1,
 						name: "food",
-						icon: "fa fa-food",
+						icon: "my-icon-msg",
 						url: "#/food",
 						func: activeTab,
 						active: false
@@ -91,7 +91,7 @@ angular
 					{
 						id: 2,
 						name: "map",
-						icon: "fa fa-map",
+						icon: "my-icon-eidt",
 						url: "",
 						func: activeTab,
 						active: false

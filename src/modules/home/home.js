@@ -32,27 +32,27 @@ angular
                 view.modules = [{
                     name: "吃货",
                     url: "",
-                    icon: 'fa fa-food'
+                    icon: 'my-icon-zoom-in'
                 },{
                     name: "游玩",
                     url: "",
-                    icon: 'fa fa-tour'
+                    icon: 'my-icon-stop'
                 },{
                     name: "电影",
                     url: "",
-                    icon: 'fa fa-movies'
+                    icon: 'my-icon-friends'
                 },{
                     name: "服装",
                     url: "",
-                    icon: 'fa fa-clothes'
+                    icon: 'my-icon-send'
                 },{
                     name: "数码",
                     url: "",
-                    icon: 'fa fa-tech'
+                    icon: 'my-icon-rise'
                 },{
                     name: "地图",
                     url: "/map",
-                    icon: 'fa fa-tech'
+                    icon: 'my-icon-geo'
                 }];
 
                 addEmptyModule(view.modules)

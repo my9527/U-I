@@ -25,12 +25,12 @@ angular
             function compile(ele, attr){
                 return function(){
                     document.body.appendChild(ele[0]);
-                    t = $timeout(function(){
-
-                        document.body.removeChild(ele[0]);
-                        $timeout.cancel(t);
-                        t = null;
-                    }, 3500);
+                    // t = $timeout(function(){
+                    //
+                    //     document.body.removeChild(ele[0]);
+                    //     $timeout.cancel(t);
+                    //     t = null;
+                    // }, 3500);
                     return{
                         postlink: link
                     }

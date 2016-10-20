@@ -51,7 +51,8 @@
                class="footbar-item"
                ng-class="{'active': tab.active}"
                ng-href="{{tab.url}}">
-                {{tab.name}}
+                <div><span class="{{tab.icon}}"></span></div>
+                <div>{{tab.name}}</div>
             </a>
         </div>
 
