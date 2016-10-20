@@ -62,7 +62,8 @@ angular
         "$timeout",
 		"myGLOBAL",
 		"utils",
-        function($scope, $location, $timeout, myGLOBAL, utils){
+		"myLoader",
+        function($scope, $location, $timeout, myGLOBAL, utils, myLoader){
             var view = this;
 
 			init();
@@ -103,6 +104,8 @@ angular
 					view.pageShow = true;
 				});
 				utils.notice("Hello Cordova");
+				//加载高德地图
+				loadMap();
 				view.alerts = myGLOBAL.alerts;
 
 			}
@@ -118,6 +121,16 @@ angular
 						item.active = true;
 					}
 				})
+
+			}
+
+			function loadMap(){
+				// var src = 'http://webapi.amap.com/maps?v=1.3&key=d51757a95cbe947bed4517daefb2a52d';
+				var src = 'http://api.map.baidu.com/getscript?v=2.0&ak=fnrBakIbsFYrSUtFrqHWa0ekABA6n3N0&services=&t=20160928173929';
+				myLoader.loadJs(src)
+					.then(function(){
+						console.log("Map load success, 现在可以开始创建地图了");
+					})
 
 			}
 
