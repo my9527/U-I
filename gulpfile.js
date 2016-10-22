@@ -39,7 +39,7 @@ gulp.task('copyFont', copyFont);
  * @param  {[type]} ){	 gulp.src(config.dist.base+"*.*")				.pipe(del())				.pipe(gulp.dest(config.dist.base))} [description]
  * @return {[type]}      [description]
  */
-gulp.task('clean', function(){
+gulp.task('clean',["clean:app"], function(){
 	del(config.dist.base+"/**/*");
 });
 
@@ -290,4 +290,4 @@ gulp.task("init-app", runSequence('createApp', 'addPlatform'));
 // 浏览器开发测试
 gulp.task("default", runSequence('clean','getModules','js',['jsLibs', 'buildBaseMyLibs', 'less', 'html', 'buildHOME', 'copyFont'], ['watch:modules', 'watch:common', 'serve']));
 // 打包cordova 工程
-gulp.task("build", runSequence(['clean','clean:app'],'getModules','js',['jsLibs', 'buildBaseMyLibs', 'less', 'html', 'buildHOME', 'copyFont'], 'copyWWW', 'buildApp'));
+gulp.task("build", runSequence('clean','getModules','js',['jsLibs', 'buildBaseMyLibs', 'less', 'html', 'buildHOME', 'copyFont'], 'copyWWW', 'buildApp'));
