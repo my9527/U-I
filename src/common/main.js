@@ -6,8 +6,7 @@ angular
 		"common.routes",
 		"common.myLoader",
 		"common.utils",
-		"module.home",
-		"module.splash"
+		"module.home"
     ])
 
     .run([
@@ -101,10 +100,10 @@ angular
 				activeTab(view.tabs[0]);
 
 				$timeout(function(){
-					view.pageShow = true;
+					view.status.pageShow = true;
 				});
 				utils.notice("Hello Cordova");
-				//加载高德地图
+				//加载百度地图
 				loadMap();
 				view.alerts = myGLOBAL.alerts;
 
@@ -197,7 +196,7 @@ angular
 			}
 		}
 	])
-    .animation(".footbar-animate", [
+    /*.animation(".footbar-animate", [
         "$timeout",
         "$route",
          function($timeout, $route){
@@ -241,7 +240,7 @@ angular
                  }
              }
          }
-    ])
+    ])*/
 
 	.directive("animateBar", [
 		"$window",
@@ -280,25 +279,77 @@ angular
 					$timeout(function(){
 						$ele.removeClass(animateClass[0]);
 						$ele.removeClass(animateCommonClass);
-						$ele.css("display", "none");
-					},100)
+						// $ele.css("display", "none");
+						$ele.addClass("ng-hide");
+					},1000)
+
 				}
 				
 				function enter() {
-					$ele.css("display", "");
+					$ele.removeClass("ng-hide");
+					// $ele.css("display", "");
 					$ele.addClass(animateClass[1]);
 					$ele.addClass(animateCommonClass);
 					$timeout(function(){
 						$ele.removeClass(animateClass[1]);
 						$ele.removeClass(animateCommonClass);
 
-					}, 80)
+					}, 800)
 				}
 			}
 
 			return{
 				link: link
 			}
+		}
+	])
+	.directive("delayShow", [
+		"$timeout",
+		function ($timeout) {
+			return{
+				restrict:"AEC",
+				link: function (scope, ele) {
+					$timeout(function () {
+						ele.removeClass("delay")
+					},1000)
+				}
+			}
+		}
+	])
+	.directive("mySplash", [
+		"$window",
+		"$timeout",
+		"$location",
+		"utils",
+		function($window, $timeout, $location, utils){
+			var t = null;
+			function link($scope, $ele){
+				$timeout(function(){
+					$ele.css("display", "none");
+					utils.notice("Loading finished");
+				}, 3000)
+			}
+			function compile(ele, attr){
+				return function(){
+					document.body.appendChild(ele[0]);
+					// t = $timeout(function(){
+					//
+					//     document.body.removeChild(ele[0]);
+					//     $timeout.cancel(t);
+					//     t = null;
+					// }, 3500);
+					return{
+						postlink: link
+					}
+				}
+
+			}
+			return {
+				templateUrl: "html/splash/splash.html",
+				link: link
+				// compile: compile
+			}
+
 		}
 	])
 

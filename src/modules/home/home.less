@@ -28,15 +28,26 @@
 
     }
     .m-inner {
-        .flex-layout();
+        //.flex-layout();
+        position: relative;
         border-right: @border;
         width: 100%;
+        height: 100%;
         align-items: center;
-        flex-wrap: wrap;
+        //flex-wrap: wrap;
         .item {
             width: 100%;
+            position: relative;
+            top: 25%;
+            padding: 5px 0;
         }
     }
+    .m-a-icon{
+        font-size: 2rem;
+        color: @theme-color;
+
+    }
+
 
 }
 
