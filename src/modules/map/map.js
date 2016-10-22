@@ -93,9 +93,13 @@ angular
 
 				});
 				map.addEventListener("touchend", function(){
-					infoCmpt.info.removeClass("slow_shorter");
-					infoCmpt.info.addClass("slow_long");
+					// infoCmpt.info.addClass("slow_long");
 					infoCmpt.icon.addClass("bounce-icon");
+					$timeout(function(){
+						infoCmpt.info.removeClass("slow_shorter");
+						infoCmpt.info.addClass("slow_long");
+
+					},450)
 					var center = map.getViewport();
 					/*geoCoder.getLocation(center.center, function(rslt){
 						console.log(rslt);
@@ -122,7 +126,7 @@ angular
 						// icon.removeClass("my-map-drag");
 						infoCmpt.icon.removeClass("bounce-icon");
 						infoCmpt.info.removeClass("slow_long");
-					},800)
+					},1000)
 				});
 			}
 
@@ -144,7 +148,7 @@ angular
 				infoWindow.className = "info-span ";
 
 
-				icon.addClass("map-geo");
+				icon.addClass("map-geo my-icon-geo-flag");
 				icon.addClass("animated");
 
 

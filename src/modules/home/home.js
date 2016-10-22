@@ -48,7 +48,7 @@ angular
                 },{
                     name: "数码",
                     url: "",
-                    icon: 'my-icon-rise'
+                    icon: 'my-icon-geo-flag'
                 },{
                     name: "地图",
                     url: "/map",

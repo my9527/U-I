@@ -33,7 +33,9 @@ gulp.task("js", function(){
 
 gulp.task('jsLibs', buildLibs);
 
-gulp.task('copyFont', copyFont);
+gulp.task('copyFont',['copyImg'], copyFont);
+
+gulp.task('copyImg', copyImg);
 /**
  * 清理文件
  * @param  {[type]} ){	 gulp.src(config.dist.base+"*.*")				.pipe(del())				.pipe(gulp.dest(config.dist.base))} [description]
@@ -184,6 +186,11 @@ function buildLess(){
 function copyFont(){
 	return gulp.src("./src/res/font/*\.{ttf,woff,eot}")
 		.pipe(gulp.dest(config.dist.css+"/fonts"))
+}
+
+function copyImg(){
+	return gulp.src("./src/res/img/*.*")
+		.pipe(gulp.dest(config.dist.css+"/img"))
 }
 function buildBaseLibs(){
 	return gulp
