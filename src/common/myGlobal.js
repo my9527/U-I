@@ -10,6 +10,7 @@ angular
             var myGLOBAL = {
                 modules: ["home"],
                 alerts : [],
+                userInfo:{pos: null},
                 open: open
             };
 

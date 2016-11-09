@@ -177,6 +177,7 @@ function buildHtml(){
 }
 
 function buildLess(){
+	console.log("This is buildLess");
 	return gulp.src([config.src.less, config.src.res+"/index.less"])
 				.pipe(less())
 				.pipe(concat("style.css"))

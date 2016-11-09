@@ -1,6 +1,7 @@
 angular
     .module("myApp", [
     	"ngRoute",
+		"ngCordova",
 		"ngAnimate",
 		"common.myGlobal",
 		"common.routes",
@@ -15,11 +16,13 @@ angular
     	"$q",
 		"myGLOBAL",
         "$timeout",
-    	function($location, $rootScope, $q, myGLOBAL, $timeout){
+		"utils",
+    	function($location, $rootScope, $q, myGLOBAL, $timeout, utils){
 
 		console.log("myGLOBAL: " , myGLOBAL);
 
-    	$location.path("/home");
+
+			$location.path("/home");
     	//检查是否已经加载过模块
     	$rootScope.$on("$routeChangeStart", function(evt, next, cur){
     		var route = next && next.$$route;
@@ -52,6 +55,9 @@ angular
                 }
             }
         });*/
+        //
+
+
 
     }])
  
@@ -126,12 +132,39 @@ angular
 			function loadMap(){
 				// var src = 'http://webapi.amap.com/maps?v=1.3&key=d51757a95cbe947bed4517daefb2a52d';
 				var src = 'http://api.map.baidu.com/getscript?v=2.0&ak=fnrBakIbsFYrSUtFrqHWa0ekABA6n3N0&services=&t=20160928173929';
+                var convertJs = 'http://developer.baidu.com/map/jsdemo/demo/convertor.js';
 				myLoader.loadJs(src)
 					.then(function(){
+                        myLoader.loadJs(convertJs);
 						console.log("Map load success, 现在可以开始创建地图了");
 					})
 
+
 			}
+
+
+            //getUserPos() && (getUserPos = function(){});
+
+            function getUserPos(){
+                baidu_location.getCurrentPosition(function(data){
+                    var rslt = JSON.parse(data)
+                    myGLOBAL.userInfo.pos = {
+                        lng: rslt.lng,
+                        lat: rslt.lat
+                    }
+                    // utils.notice("success");
+                    $timeout(function () {
+                        utils.notice("success");
+                        utils.notice(data)
+                    },4000)
+
+                }, function(){
+                    utils.notice("failed to get the position")
+                })
+            }
+
+
+
 
         }
     ])
