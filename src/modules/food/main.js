@@ -16,7 +16,8 @@ angular
         function ($scope) {
             var view = this;
             this.msg = "This is food page";
-
+            // This is a test   , you can now check if changed
+            // This is a test   , you can now check if changed
 
             function foo(){
                 foo.call(jack);

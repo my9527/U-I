@@ -29,6 +29,7 @@ gulp.task("js", function(){
 	console.log("----------[ checked ]: ./src/modules/"+folders[0]+"/*.js");
 	// return
 	buildjs(folders[0], folders);
+	console.log('')
 });
 
 gulp.task('jsLibs', buildLibs);
@@ -67,7 +68,7 @@ gulp.task('getModules', function(){
 			.src([config.src.modules])
 			.pipe(through2.obj(function(file, enc, cb){
 				var filename = file.relative.split('\\');
-				// console.log(filename);
+				console.log('=======>'+filename);
 				if(-1 == config.args.modules.indexOf(filename[0])){
 					config.args.modules.push(filename[0]);
 				}
@@ -145,7 +146,7 @@ gulp.task("watch:common", function(){
 // 单独生成该模块的mainjs
 // 然后合并成为 business.js
 function buildjs(folder, folders){
-	return	gulp.src('./src/modules/'+folder+"/*.js")
+	return	gulp.src(['./src/modules/'+folder+"/*.js", './src/modules/'+folder+"/**/*.js"])
 			.pipe(concat(folder+"main.js"))
 			.pipe(gulp.dest(config.dist.js))
 			.on("end", function(){
