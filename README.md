@@ -15,6 +15,7 @@
 
     // 更新代码
     git fetch
+    //
     git rebase origin/master
 
 2、开发命令说明
@@ -40,3 +41,7 @@
        modified( common.main ): 增加Tab切换；
     修改其他文件
     例 modified( config.xml ): 增加AllowInlineMediaPlayback 配置；
+4、路由添加
+    工程采用动态加载的方式，故路由需提前定义
+    添加模块
+    在src/common/route.js添加模块路由（注：模块名需路由名相同）

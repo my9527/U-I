@@ -6,6 +6,7 @@ angular
 		"common.myGlobal",
 		"common.routes",
 		"common.myLoader",
+		"common.eventListener",
 		"common.utils",
 		"module.home"
     ])

@@ -53,6 +53,10 @@ angular
                     name: "地图",
                     url: "/map",
                     icon: 'my-icon-geo'
+                },{
+                    name: "计步器",
+                    url: "/walkMate",
+                    icon: 'my-icon-upload'
                 }];
 
                 addEmptyModule(view.modules)
