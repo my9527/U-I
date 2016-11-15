@@ -1,0 +1,104 @@
+/**
+ directive less
+
+*/
+
+.setJigsawPieace(@total, @i:0) when(@i<@total){
+    @posX: mod(@i, 3)*50%;
+    @posY: floor(@i/3)*50%;
+    .jigsaw@{i}{
+        background-position: @posX @posY;
+    }
+
+    .setJigsawPieace(@total, (@i+1));
+}
+/*
+.gether(@total, @i:0) when(@i<@total){
+    @transX: mod(@i+1, 2)*16.666666%*(@i-1);
+    @transY: mode(@i+1, 2)
+    when(mod(@i+1, 2) == 1){
+    .tranform@{i}{
+            transform: translateX(@transX);
+        }
+    }
+}*/
+@keyframes jigsawAnimation {
+    0%{
+
+    }
+    100%{
+
+    }
+}
+.my-jigsaw{
+    /* 九宫格 */
+    .setJigsawPieace(9);
+    @transX: 16.66666666%;
+    @transY: 19.5px;
+    //@transY: 25.5666666%;
+    .transformR{
+        transform: translateX(@transX);
+    }
+    .transformL{
+        transform: translateX(-@transX);
+    }
+    .transformU{
+        transform: translateY(-@transY);
+    }
+    .transformD{
+        transform: translateY(@transY);
+    }
+    .transformRD{
+        transform: translateX(@transX) translateY(@transY);
+    }
+    .transformLD{
+        transform: translateX(-@transX) translateY(@transY);
+    }
+    .transformLU{
+        transform: translateX(-@transX) translateY(-@transY);
+    }
+
+    .transformRU{
+        //transform: translateX(@transX) translateY(-@transY);
+        transform: translateX(@transX) translateY(-@transY);
+    }
+
+}
+
+.water-fall{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    .wf-main{
+        position: relative;
+        margin: 0 auto;
+        width: 100%;
+        overflow: hidden;
+    }
+    .wf-main .wf-cld{
+        position: absolute;
+        margin-bottom: 10px;
+        padding:5px 8px;
+        width: 100%;
+        line-height:18px;
+        border: 1px solid #999;
+        border-radius: 4px;
+        background-color: #ccc;
+        overflow: hidden;
+    }
+    .wf-cld .inner{
+        position: absolute;
+        margin-bottom: 5px;
+        width: 100%;
+        overflow: hidden;
+        border: 1px solid #f00;
+        border-radius: 3px;
+    }
+    .wf-cld .title{
+        margin: 0 0 5px;
+        padding: 5px;
+        width: 100%;
+        color: #f00;
+        font-size: 14px;
+    }
+}

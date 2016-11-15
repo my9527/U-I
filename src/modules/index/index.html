@@ -52,6 +52,15 @@
         .delay{
             opacity: 0;
         }
+        .view-ng{
+            /*overflow: hidden;
+            position: absolute;
+            width: 100%;
+            height: 90%;
+            margin-bottom: 59px;*/
+            padding-top: 3.2rem;
+
+        }
 
     </style>
     
@@ -60,7 +69,7 @@
         <div class="actionbar delay" delay-show animate-bar isTop="true">
             <div>MY CORDOVA</div>
         </div>
-        <div ng-view class="app-animate"></div>
+        <div ng-view class="view-ng app-animate"></div>
 
         <!-- 待分离成组件 -->
         <div id="footbar" animate-bar isTop="false" delay-show class="delay footbar flex text-center">
@@ -88,6 +97,14 @@
                 <span class="msg short-msg">{{alert.msg}}</span>
             </div>
         </div>
+
+        <!--  jigsaw view -->
+        <div my-jigsaw
+         ng-if="mainCtrl.jigsawUrl"
+         jigsaw-url="mainCtrl.jigsawUrl">
+        </div>
+
+
          <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="libs/baseLibs.js"></script>
         <script type="text/javascript" src="libs/my.js"></script>

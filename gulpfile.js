@@ -143,6 +143,12 @@ gulp.task("watch:common", function(){
 	})
 });
 
+
+gulp.task("watch:res", function () {
+	gulp.watch(config.src.res+"/*.less", function (e) {
+		buildLess();
+	})
+})
 // 单独生成该模块的mainjs
 // 然后合并成为 business.js
 function buildjs(folder, folders){
@@ -297,6 +303,6 @@ function copyWWW(){
 // 初始化cordova 工程
 gulp.task("init-app", runSequence('createApp', 'addPlatform'));
 // 浏览器开发测试
-gulp.task("default", runSequence('clean','getModules','js',['jsLibs', 'buildBaseMyLibs', 'less', 'html', 'buildHOME', 'copyFont'], ['watch:modules', 'watch:common', 'serve']));
+gulp.task("default", runSequence('clean','getModules','js',['jsLibs', 'buildBaseMyLibs', 'less', 'html', 'buildHOME', 'copyFont'], ['watch:modules', 'watch:common', 'watch:res', 'serve']));
 // 打包cordova 工程
 gulp.task("build", runSequence('clean','getModules','js',['jsLibs', 'buildBaseMyLibs', 'less', 'html', 'buildHOME', 'copyFont'], 'copyWWW', 'buildApp'));

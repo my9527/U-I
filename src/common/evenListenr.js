@@ -15,7 +15,7 @@ angular
      * 调用方式
      * eventListener
      */
-    .factory('eventListenr', [
+    .factory('eventListener', [
         function () {
             // 事件信号
             var signalsPool = [];
@@ -70,8 +70,8 @@ angular
                         if(id && item.id !== id){
                             return;
                         }
-                        context && item.func.apply(context, opts);
-                        !context && item.func(opts);
+                        context && "function" == typeof item.func && item.func.apply(context, opts);
+                        !context && "function" == typeof item.func  && item.func(opts);
                     });
                 }
 
@@ -126,6 +126,13 @@ angular
 
             return decorator;
 
+        }
+    ])
+    .factory('eventDelegate', [
+        "$parse",
+        "$window",
+        function($parse, $window){
+            
         }
     ])
 ;

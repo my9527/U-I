@@ -35,6 +35,13 @@ angular
             ctrl: "walkMateCtrl",
             ctrlAs: "wmc",
             icon: "my-icon-edit"
+        },{
+            url: "/gallary",
+            name: "gallary",
+            tmp: "html/gallary/main.html",
+            ctrl: "gallaryCtrl",
+            ctrlAs: "gc",
+            icon: "my-icon-edit"
         }
     ])
     .value("LoadedModules", [])

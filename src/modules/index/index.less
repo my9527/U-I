@@ -4,6 +4,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 1;
     width: 100%;
     padding: @normal-padding 0;
     .flex-layout();
@@ -12,8 +13,9 @@
 
 .footbar {
     width: 100%;
+    background: #fff;
     position: absolute;
-    bottom: 0;
+    bottom: -1px;
     left: 0;
     &-item {
         width: 100%;
@@ -27,15 +29,21 @@
 }
 
 .dock-fill {
-    width: 100%;
+/*    width: 100%;
     height: 100%;
     overflow-x: hidden;
     overflow-y: hidden;
-    margin-top: 3.2rem;
+    margin-top: 3.2rem;*/
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 60px;
+
 }
 
 .scroll-y {
-    overflow-y: visible;
+    overflow-y: scroll;
 }
 
 .flex {

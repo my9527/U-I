@@ -7,6 +7,7 @@ angular
 		"common.routes",
 		"common.myLoader",
 		"common.eventListener",
+		"common.myDirectives",
 		"common.utils",
 		"module.home"
     ])
@@ -69,7 +70,9 @@ angular
 		"myGLOBAL",
 		"utils",
 		"myLoader",
-        function($scope, $location, $timeout, myGLOBAL, utils, myLoader){
+		"eventListener",
+        function($scope, $location, $timeout, myGLOBAL, utils, myLoader
+        	, eventListener){
             var view = this;
 
 			init();
@@ -114,6 +117,13 @@ angular
 				loadMap();
 				view.alerts = myGLOBAL.alerts;
 
+				view.jigsawUrl = null;
+				view.isShowJigsawView = !!view.jigsawUrl;
+				eventListener.sub('myJigsawViewshow', JigsawViewshow, "myJigsawViewshow")
+				function JigsawViewshow(picUrl){
+					view.isShowJigsawView = true;
+					view.jigsawUrl = picUrl;
+				}
 			}
 
 			function activeTab(tab){
@@ -292,6 +302,7 @@ angular
 				$rootScope.$on("$routeChangeStart", function(evt, next, cur){
 					var _nextRoute;
 					var _curRoute;
+					// return;
 					// 处理离开主页
 					if(next && next.$$route && cur && cur.$$route){
 						var isToMainView = -1 == excludeRoute.indexOf(next.$$route.originalPath);
@@ -308,6 +319,7 @@ angular
 
 
 				function leave() {
+					console.log("up",Date.now())
 					$ele.addClass(animateClass[0]);
 					$ele.addClass(animateCommonClass);
 					$timeout(function(){
@@ -315,11 +327,12 @@ angular
 						$ele.removeClass(animateCommonClass);
 						// $ele.css("display", "none");
 						$ele.addClass("ng-hide");
-					},1000)
+					},800)
 
 				}
 				
 				function enter() {
+					console.log("down", Date.now())
 					$ele.removeClass("ng-hide");
 					// $ele.css("display", "");
 					$ele.addClass(animateClass[1]);

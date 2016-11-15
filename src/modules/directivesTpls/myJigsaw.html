@@ -1,0 +1,101 @@
+<style>
+    .my-jigsaw{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: rgba(44,44,44,.4);
+    }
+    .my-jigsaw .container{
+        position: absolute;
+        width: 100%;
+        padding-bottom: 300%;
+        top: 5%;
+        left: 50%;
+        height: 0;
+        transform: translateX(-50%);
+    }
+    .jigsaw-box{
+        width: 100%;
+        height: 100%;
+        position: relative;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .jigsaw-item{
+        width: 30%;
+        padding-bottom: 30%;
+        height: 0;
+        float: left;
+        margin: 10px -1px;
+    }
+    .jigsaw-perspective{
+        perspective: 1000px;
+    }
+    .jigsaw-animated{
+        -webkit-animation-duration: 20s !important;
+        animation-duration: 20s !important;
+        transition-duration: 2s;
+        transition-timing-function: cubic-bezier();
+
+    }
+    .jigsaw-pieace{
+        width: 100%;
+        /*height: 100%;*/
+        padding-bottom: 100%;
+        background-repeat: no-repeat;
+        background-size: 300% 300%;
+        /*border: 1px solid;*/
+    }
+    .jigsaw0{
+        background-position: 0 0;
+    }
+    .jigsaw1{
+        background-position: 100% 0;
+    }
+    .jigsaw2{
+        background-position:  0 100%;
+    }
+    .jigsaw3{
+        background-position:  100% 100%;
+
+    }
+</style>
+
+<div class="my-jigsaw" >
+    <div class="container">
+        <ul class="jigsaw-box" ng-if="!!jigsawUrl">
+            <li class="jigsaw-item jigsaw-animated" ng-repeat="item in jigsawBoxs">
+                <div class="jigsaw-pieace jigsaw{{item}}"
+                     style="background-image: url({{jigsawUrl}});"
+                ></div>
+            </li>
+        </ul>
+        <div>
+            This is a try
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
+    <!--<ul class="jigsaw-box" ng-if="!!jigsawUrl">
+        <li class="jigsaw-item jigsaw-animated" ng-repeat="item in jigsawBoxs">
+            <div class="jigsaw-pieace jigsaw{{item}}"
+                 style="background-image: url({{jigsawUrl}});"
+            ></div>
+        </li>
+    </ul>
+    <div>
+        This is a try
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>-->
+</div>

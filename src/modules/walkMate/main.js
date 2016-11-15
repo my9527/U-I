@@ -6,9 +6,9 @@ angular
     .controller("walkMateCtrl", [
         "$scope",
         "$timeout",
-        "eventListenr",
+        "eventListener",
         "decoratorFunc",
-        function ($scope, $timeout, eventListenr, decoratorFunc) {
+        function ($scope, $timeout, eventListener, decoratorFunc) {
             var view = this;
 
 
@@ -18,7 +18,7 @@ angular
                 view.bindEvent = function () {
                     console.log("This is a test");
                 };
-                var eventid = eventListenr.sub('test', function () {
+                var eventid = eventListener.sub('test', function () {
                     console.log("This is a test with id");
                 });
 
@@ -29,7 +29,7 @@ angular
                 function af() {
                     console.log("This is afterFn")
                 }
-                eventListenr.sub('test', tmp);
+                eventListener.sub('test', tmp);
                 function t(tt){
                         console.log("This is a test without id", tt);
                 }
@@ -38,7 +38,7 @@ angular
                     console.log("This is before fn")
                 }
                 $timeout(function () {
-                    eventListenr.trigger('test')("nihao");
+                    eventListener.trigger('test')("nihao");
                     // eventListenr.trigger('test', eventid)("nihao");
                 }, 1000)
             }
@@ -49,8 +49,8 @@ angular
     .directive("myMap1", [
         "myGLOBAL",
         "$parse",
-        "eventListenr",
-      function (myGLOBAL, $parse, eventListenr) {
+        "eventListener",
+      function (myGLOBAL, $parse, eventListener) {
 
           var map = null;
           var centerAddr = null;
@@ -72,13 +72,13 @@ angular
                     // $scope.bindEvent
                     // var t = $scope.bindEvent();
                     // bindEvent(map, $scope.eventType, t);
-                    var walkMate_move = eventListenr.sub('move', move, 'walkMate_move');
-                    var walkMate_drawRoute = eventListenr.sub('drawRoutes', drawRoutes, 'walkMate_drawRoute');
-                    var walkMate_geos = eventListenr.sub('geos', geos, 'walkMate_geos');
+                    var walkMate_move = eventListener.sub('move', move, 'walkMate_move');
+                    var walkMate_drawRoute = eventListener.sub('drawRoutes', drawRoutes, 'walkMate_drawRoute');
+                    var walkMate_geos = eventListener.sub('geos', geos, 'walkMate_geos');
                     var geosTimer = null;
                     function move(){
                         map.addEventListener('move', function () {
-                            eventListenr.trigger('move',  walkMate_move);
+                            eventListener.trigger('move',  walkMate_move);
                         })
                     }
 
