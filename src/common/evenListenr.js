@@ -65,13 +65,13 @@ angular
 
             function trigger(signal, id, context){
                 return function(opts){
-                    var args = Array.prototype.slice.call(arguments, 2);
+                    var args = Array.prototype.slice.call(arguments);
                     signalsPool[signal].forEach(function (item) {
                         if(id && item.id !== id){
                             return;
                         }
-                        context && "function" == typeof item.func && item.func.apply(context, opts);
-                        !context && "function" == typeof item.func  && item.func(opts);
+                        context && "function" == typeof item.func && item.func.apply(context, args);
+                        !context && "function" == typeof item.func  && item.func.apply(null, args);
                     });
                 }
 

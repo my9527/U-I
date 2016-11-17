@@ -41,7 +41,8 @@ angular
             tmp: "html/gallary/main.html",
             ctrl: "gallaryCtrl",
             ctrlAs: "gc",
-            icon: "my-icon-edit"
+            icon: "my-icon-edit",
+            hideBar:'bot'
         }
     ])
     .value("LoadedModules", [])

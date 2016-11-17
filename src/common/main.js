@@ -9,6 +9,7 @@ angular
 		"common.eventListener",
 		"common.myDirectives",
 		"common.utils",
+		"common.http",
 		"module.home"
     ])
 
@@ -107,6 +108,15 @@ angular
 						active: false
 					}
 				];
+
+				// 基本设置，全局性
+				view.setting = {
+					blur: false
+				};
+				view.jigsaw = {
+					url: null,
+					text: null
+				}
 				activeTab(view.tabs[0]);
 
 				$timeout(function(){
@@ -117,12 +127,35 @@ angular
 				loadMap();
 				view.alerts = myGLOBAL.alerts;
 
-				view.jigsawUrl = null;
-				view.isShowJigsawView = !!view.jigsawUrl;
+				// 设置拼图显示
+				// view.jigsawUrl = null;
+				view.isShowJigsawView = !!view.jigsaw.url;
 				eventListener.sub('myJigsawViewshow', JigsawViewshow, "myJigsawViewshow")
-				function JigsawViewshow(picUrl){
+				function JigsawViewshow(picUrl, txt){
 					view.isShowJigsawView = true;
-					view.jigsawUrl = picUrl;
+					view.jigsaw.url = picUrl;
+					view.jigsaw.text = txt;
+				}
+
+				// 设置navbar 是否显示隐藏
+				// top 、 bottom
+				view.hideBar= {
+					top: false,
+					bot: false
+				};
+				eventListener.sub('myHideAnimateBar', hideBarFunc, "myHideAnimateBar")
+				function hideBarFunc(target) {
+					console.log("trigger myHideAnimateBar", target)
+					if(target){
+						view.hideBar[target] = true;
+					}
+				}
+
+				// 设置ng-view 背景模糊；
+				// 主要在 jigsaw 应用时
+				eventListener.sub('myBlurViewBg', blurBg, "myBlurViewBg");
+				function blurBg(blur) {
+					view.setting.blur = blur || false;
 				}
 			}
 
@@ -291,7 +324,9 @@ angular
 		"$rootScope",
 		"$location",
 		"$timeout",
-		function($window, $rootScope, $location, $timeout){
+		"eventListener",
+		"myGLOBAL",
+		function($window, $rootScope, $location, $timeout, eventListener, myGLOBAL){
 			function link($scope, $ele, $attr){
 				var _animateClass = ["fadeInUp", "fadeOutDown", "fadeInDown", "fadaOutUp"];
 				var animateClass = $attr["isTop"]=="true"?_animateClass.slice(0,2):_animateClass.slice(2,2);
@@ -299,12 +334,27 @@ angular
 				var animateDurition = 500;
 				var animateCommonClass = "bar-animate";
 
+				var barName = $attr["barName"];
+				var hideBar = myGLOBAL.setting[barName];
+				eventListener.sub('myHideAnimateBar', hideBarFunc, "myHideAnimateBar")
+				function hideBarFunc(target) {
+					console.log(target, barName);
+					barName && barName == target && (myGLOBAL.setting[target] = hideBar = true);
+				}
+
+				// eventListener.sub('myHideAnimateBar', hideBarFunc, "myHideAnimateBar")
+				// function hideBarFunc(target) {
+				// 	if(target){
+				// 		hideBar = true;
+				// 	}
+				// }
+
 				$rootScope.$on("$routeChangeStart", function(evt, next, cur){
 					var _nextRoute;
 					var _curRoute;
 					// return;
 					// 处理离开主页
-					if(next && next.$$route && cur && cur.$$route){
+					if(hideBar && next && next.$$route && cur && cur.$$route){
 						var isToMainView = -1 == excludeRoute.indexOf(next.$$route.originalPath);
 						var isFromMainView = -1 == excludeRoute.indexOf(cur.$$route.originalPath);
 					 	 !isToMainView && isFromMainView && enter();
@@ -313,25 +363,29 @@ angular
 					}
 				});
 				// 之后监听滚动
-				$rootScope.$on("scrollDown", enter);
+				 $rootScope.$on("scrollDown", enter);
 				$rootScope.$on("scrollUp", leave);
 
 
 
 				function leave() {
+					console.log(myGLOBAL.setting[barName], barName)
+					if(myGLOBAL.setting[barName])return;
 					console.log("up",Date.now())
 					$ele.addClass(animateClass[0]);
 					$ele.addClass(animateCommonClass);
+					$ele.addClass("ng-hide");
 					$timeout(function(){
 						$ele.removeClass(animateClass[0]);
 						$ele.removeClass(animateCommonClass);
 						// $ele.css("display", "none");
-						$ele.addClass("ng-hide");
+						// $ele.addClass("ng-hide");
 					},800)
 
 				}
 				
 				function enter() {
+					if(myGLOBAL.setting[barName])return;
 					console.log("down", Date.now())
 					$ele.removeClass("ng-hide");
 					// $ele.css("display", "");
@@ -346,6 +400,9 @@ angular
 			}
 
 			return{
+				scope:{
+				 isToHide: "="
+				},
 				link: link
 			}
 		}

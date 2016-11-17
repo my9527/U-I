@@ -66,13 +66,13 @@
     
     <body ng-controller="mainCtrl as mainCtrl">
 
-        <div class="actionbar delay" delay-show animate-bar isTop="true">
+        <div class="actionbar delay" delay-show animate-bar bar-name="top" is-to-hide="mainCtrl.hideBar.top" isTop="true">
             <div>MY CORDOVA</div>
         </div>
-        <div ng-view class="view-ng app-animate"></div>
+        <div ng-view class="view-ng app-animate" ng-class="{'blur-bg':mainCtrl.setting.blur}"></div>
 
         <!-- 待分离成组件 -->
-        <div id="footbar" animate-bar isTop="false" delay-show class="delay footbar flex text-center">
+        <div id="footbar" animate-bar isTop="false" bar-name="bot" delay-show is-to-hide="mainCtrl.hideBar.bot" class="delay footbar flex text-center">
             <a ng-click="tab.func(tab)"
                ng-repeat="tab in mainCtrl.tabs"
                class="footbar-item"
@@ -100,8 +100,8 @@
 
         <!--  jigsaw view -->
         <div my-jigsaw
-         ng-if="mainCtrl.jigsawUrl"
-         jigsaw-url="mainCtrl.jigsawUrl">
+         ng-if="mainCtrl.jigsaw.url" jigsaw-text="{{mainCtrl.jigsaw.text}}"
+         jigsaw-url="mainCtrl.jigsaw.url">
         </div>
 
 
@@ -111,6 +111,8 @@
         <script src="js/indexmain.js"></script>
         <!--<script src="js/splashmain.js"></script>-->
         <script src="js/homemain.js"></script>
+        <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.js"></script>
+        <script src="http://cdn.bootcss.com/masonry/4.1.1/masonry.pkgd.min.js"></script>
     </body>
 
 </html>

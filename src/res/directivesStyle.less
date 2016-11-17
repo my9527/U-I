@@ -5,9 +5,10 @@
 
 .setJigsawPieace(@total, @i:0) when(@i<@total){
     @posX: mod(@i, 3)*50%;
-    @posY: floor(@i/3)*50%;
+    @posY: -50%+(floor(@i/3))*100%;
     .jigsaw@{i}{
         background-position: @posX @posY;
+        opacity: 0;
     }
 
     .setJigsawPieace(@total, (@i+1));
@@ -30,11 +31,22 @@
 
     }
 }
+
+/* 九宫格 */
 .my-jigsaw{
-    /* 九宫格 */
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(44,44,44,.4);
+    z-index: 2;
+
     .setJigsawPieace(9);
     @transX: 16.66666666%;
     @transY: 19.5px;
+    @jigsaw-bg: rgba(255, 255, 255, .5);
     //@transY: 25.5666666%;
     .transformR{
         transform: translateX(@transX);
@@ -62,6 +74,82 @@
         //transform: translateX(@transX) translateY(-@transY);
         transform: translateX(@transX) translateY(-@transY);
     }
+    /*.my-jigsaw{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: rgba(44,44,44,.4);
+        z-index: 2;
+    }*/
+     .container{
+        position: absolute;
+        width: 100%;
+        padding-bottom: 300%;
+        top: 5%;
+        left: 50%;
+        //height: 0;
+        transform: translateX(-50%);
+    }
+    .jigsaw-box{
+        width: 100%;
+        height: 100%;
+        position: relative;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: center;
+        background: @jigsaw-bg;
+    }
+    .jigsaw-item{
+        width: 30%;
+        padding-bottom: 30%;
+        height: 0;
+        float: left;
+        margin: 10px -1px;
+        background: @jigsaw-bg;
+
+    }
+    .jigsaw-desc-b{
+        width: 100%;
+        padding:4px 4.8%;
+        position: relative;
+        transform: translateY(-20%);
+        height: 0;
+        padding-bottom: 50%;
+    }
+    .jigsaw-desc{
+        word-wrap: break-word;
+        word-break: break-all;
+        background: @jigsaw-bg;
+        padding: 10px 4px;
+        text-transform: capitalize;
+        text-indent: 1em;
+    }
+    .jigsaw-desc:first-letter{
+        font-size: 200%;
+    }
+    .jigsaw-perspective{
+        perspective: 1000px;
+    }
+    .jigsaw-animated{
+        -webkit-animation-duration: 2s;
+        animation-duration: 2s;
+        transition-duration: 2s;
+        transition-timing-function: cubic-bezier();
+    }
+    .jigsaw-pieace{
+        width: 100%;
+        /*height: 100%;*/
+        padding-bottom: 100%;
+        background-repeat: no-repeat;
+        //background-size: 300% 300%;
+        background-size: inherit;
+        /*border: 1px solid;*/
+    }
 
 }
 
@@ -79,11 +167,8 @@
         position: absolute;
         margin-bottom: 10px;
         padding:5px 8px;
-        width: 100%;
+        width: 44%;
         line-height:18px;
-        border: 1px solid #999;
-        border-radius: 4px;
-        background-color: #ccc;
         overflow: hidden;
     }
     .wf-cld .inner{
@@ -91,14 +176,11 @@
         margin-bottom: 5px;
         width: 100%;
         overflow: hidden;
-        border: 1px solid #f00;
-        border-radius: 3px;
     }
     .wf-cld .title{
         margin: 0 0 5px;
         padding: 5px;
         width: 100%;
-        color: #f00;
         font-size: 14px;
     }
 }

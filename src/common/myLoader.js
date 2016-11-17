@@ -1,7 +1,7 @@
 /**
  * Created by my on 2016/10/18.
  */
- var app = angular.module("common.myLoader", ["ngRoute"])
+ var app = angular.module("common.myLoader", ["ngRoute", "common.eventListener"])
 app.config(function($routeProvider, $controllerProvider, $compileProvider, $filterProvider, $provide)
         {
 
@@ -48,6 +48,9 @@ app.config(function($routeProvider, $controllerProvider, $compileProvider, $filt
 
                                 return d.promise;
 
+                            }],
+                            isHideBar: ["eventListener", function (eventListener) {
+                                eventListener.trigger('myHideAnimateBar')(item.hideBar);
                             }]
                         }
                     })

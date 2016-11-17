@@ -24,6 +24,11 @@ angular
             }
         }
     ])
+
+    /**
+     * 封装选择器
+     * 暂不支持多级选择
+     */
     .factory('$$', [
         function () {
             var d = document;
@@ -130,7 +135,12 @@ angular
         }
     ])
 
-    .directive('myJigsaw', [
+    /**
+     * 拼图
+     * 用于展示图片及相应介绍；
+     *
+     */
+    /*.directive('myJigsaw', [
         "$parse",
         "$$",
         "$timeout",
@@ -155,8 +165,8 @@ angular
                         // });
 
 
-
                         $ele.bind('click', function () {
+                            eventListener.trigger("myBlurViewBg")(false);
                             $scope.$evalAsync(function () {
                                 $scope.jigsawUrl = null;
                             });
@@ -180,6 +190,7 @@ angular
                         }, 100);
 
                         function getherJigsaw(){
+                            eventListener.trigger("myBlurViewBg")(true);
                             // 使用transform: translate 的时候，是相对于元素自身的长宽来实现的
                             // 所以需要比例计算
                             // 九宫格 单格宽 0.3，间距 0.05；
@@ -202,9 +213,9 @@ angular
                                 }
                                 var $$ele = angular.element(item);
                                 $$ele.addClass("transform"+toAdd.join(""))
-                                /*toAdd.forEach(function (item) {
+                                /!*toAdd.forEach(function (item) {
                                     $$ele.addClass('tranform'+item)
-                                })*/
+                                })*!/
                             })
                         }
                         console.log($ele)
@@ -229,7 +240,162 @@ angular
             return {
                 scope: {
                     jigsawUrl: "=",
-                    jigsawShow: '='
+                    jigsawShow: '=',
+                    jigsawText: "@"
+                },
+                compile: compile,
+                templateUrl: 'html/directivesTpls/myJigsaw.html'
+            }
+
+        }
+    ])*/
+    .directive('myJigsaw', [
+        "$parse",
+        "$$",
+        "$timeout",
+        "eventListener",
+        function ($parse, $$, $timeout, eventListener) {
+            function compile(ele, attr){
+                // document.body.appendChild(ele[0]);
+                // ele[0].className = "ng-hide";
+                var jigsawUrl = null;
+                // eventListenr.sub('showJigsawView',  showJigsawView, "showJigsawView");
+                //
+                // function showJigsawView($ele, $scope, jigsawUrl) {
+                //     $ele.removeClass("ng-hide");
+                //     $scope.jigsawUrl = jigsawUrl;
+                // }
+
+                return {
+                    post: function ($scope, $ele, $attrs) {
+                        $scope.jigsawBoxs = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+                        // eventListenr.sub('showJigsawView',  function () {
+                        //     console.log(121)
+                        // });
+
+                        var img = new Image();
+                        var size = 1;
+                        // 图片
+                        img.src = $scope.jigsawUrl;
+                        var iw = img.width;
+                        var ih = img.height;
+                        // 宫格
+                        // var itemC = $$(".jigsaw-pieace", $ele[0]);
+                        var itemCW = $ele[0].offsetWidth*0.3;
+                        var itemCH = itemCW;
+                        // 九宫格
+                        var cw = itemCW*3;
+                        var ch = itemCH*3;
+                        console.log(cw, ch, "asdfasdf");
+                        // 图片变换后尺寸
+                        var iih = ih;
+                        var iiw = iw;
+
+                        // background-pos
+                        var isPortrait = ih>=iw?true:false;
+
+                        if(isPortrait){
+                            size = ch/ih;
+                            iiw = size*iw;
+
+                        }else{
+                            size = cw/iw;
+                            iih = size*ih;
+                        }
+
+                        $ele.bind('click', function () {
+                            eventListener.trigger("myBlurViewBg")(false);
+                            $scope.$evalAsync(function () {
+                                $scope.jigsawUrl = null;
+                            });
+                            console.log('clicked');
+                            $$('.jigsaw-item', $ele[0]).forEach(function (item) {
+                                var tmp = angular.element(item);
+                                var jitem = angular.element($$('.jigsaw-pieace', item));
+                                item.className = tmp.attr('class').replace(/tranform[RDLU]+/g, '');
+                                jitem.css('background-image',"");
+                            })
+                        });
+
+                        $timeout(function () {
+                            setBgPos();
+                            getherJigsaw()
+                        }, 100);
+
+                        function setBgPos(){
+                            var items = $$('.jigsaw-item', $ele[0]);
+                            var resolveFn = isPortrait?setPosP:setPosNotP;
+                            items.forEach(function(it, index){
+                                var _it = angular.element(it).find("div");
+                                console.log(index);
+                                resolveFn.call(this, _it, index);
+                            });
+
+
+                            function setPosP(item, index){
+                                var id = index%3;
+                                var dw = (cw-iiw)/2;
+                                // item.css("background-image", "url("+img.src+")");
+                                item.css("background-size", "auto 300%");
+                                item.css("opacity", 1);
+                                id == 0 && item.css("background-position-x", dw+"px");
+                                id == 1 && item.css("background-position-x", "center");
+                                id == 2 && item.css("background-position-x", -0.5*(iiw+itemCW)+"px");
+                                item.css("background-position-y", Math.floor(index/3)*50+"%");
+                            }
+                            function setPosNotP(item, index){
+                                // var f = index/3;
+                                // 向上 Y 变大  正
+                                // 向右 X  变小  负
+                                // item.css("background-imgage", "url("+img.src+")");
+                                var id = Math.floor(index/3);
+                                var dh = (ch-iih)/2;
+                                item.css("background-size", "300% auto");
+                                item.css("opacity", 1);
+                                id == 0 && item.css("background-position-y", dh+"px");
+                                id == 1 && item.css("background-position-y", "center");
+                                id == 2 && item.css("background-position-y", -0.5*(iih+itemCH)+"px");
+                                item.css("background-position-x", (index%3)*50+"%");
+                            }
+                        }
+
+
+                        function getherJigsaw(){
+                            eventListener.trigger("myBlurViewBg")(true);
+                            // 使用transform: translate 的时候，是相对于元素自身的长宽来实现的
+                            // 所以需要比例计算
+                            // 九宫格 单格宽 0.3，间距 0.05；
+                            // 故移动比例 为 0.05/0.3
+                            var transformClass = ["R", "D", "L", "U"];
+                            var ctxt = "transform:";
+                            $$('.jigsaw-item', $ele[0]).forEach(function (item, index) {
+                                var toAdd = [];
+                                var dy = Math.floor(index/3);
+
+                                if(index%3 == 0){
+                                    toAdd.push("R");
+                                }else if(index%3 == 2){
+                                    toAdd.push("L");
+                                }
+
+                                if(dy != 1 ){
+                                    toAdd.push(transformClass[dy+1])
+                                }
+                                var $$ele = angular.element(item);
+
+                                $$ele.addClass("transform"+toAdd.join(""))
+
+                            })
+                        }
+                    }
+                }
+            }
+
+            return {
+                scope: {
+                    jigsawUrl: "=",
+                    jigsawShow: '=',
+                    jigsawText: "@"
                 },
                 compile: compile,
                 templateUrl: 'html/directivesTpls/myJigsaw.html'
@@ -238,7 +404,9 @@ angular
         }
     ])
 
-
+    /**
+     * 瀑布流布局
+     */
     .directive('waterFallLayout', [
         "$timeout",
         function ($timeout) {
@@ -301,13 +469,20 @@ angular
                         nodes[i].h = nodes[i].offsetHeight + _this.getMar(nodes[i]);
                         iArr[i] = i;
                     }
-
+                    console.log("col", col)
                     for(var i = 0; i < len; i++){
                         var ming = _this.getMinCol(col);
+                        if(i%2==0){
+                            nodes[i].style.left = 0;
+                        }else{
+                            nodes[i].style.right = 0;
+
+                        }
                         // nodes[i].style.left = ming * _this.colWidth + "px";
-                        nodes[i].style.left = "50%";
+                        // nodes[i].style.left = i%2*50+"%";
 
                         nodes[i].style.top = col[ming] + "px";
+                        // nodes[i].style.marginTop = "100%";
                         col[ming] += nodes[i].h;
                     }
 
@@ -344,7 +519,7 @@ angular
                     wfCount: "@"
                 },
                 link: link,
-                templateUrl: 'html/directivesTpls/water-fall.html'
+                // templateUrl: 'html/directivesTpls/water-fall.html'
             }
         }
     ])
@@ -375,16 +550,20 @@ angular
                     scrollTimer = $timeout(function () {
                             end.x= evt.changedTouches[0].screenX;
                             end.y= evt.changedTouches[0].screenY;
-                            if(end.y<start.y){
+                            /*if(end.y<start.y){
                                 console.log("scrollUp", Date.now());
                                 $rootScope.$broadcast("scrollUp");
                             }else{
                                 console.log("scrollDown" , Date.now());
                                 $rootScope.$broadcast("scrollDown")
-                            }
+                            }*/
+                            var dy = end.y-start.y>0?true:false;
+                                dy &&  $rootScope.$broadcast("scrollDown");
+                                !dy &&  $rootScope.$broadcast("scrollUp");
+
                             scrollFlag = true;
                             scrollTimer = null;
-                    },100);
+                    },10);
 
                 });
                 $ele.bind('touchend', function () {

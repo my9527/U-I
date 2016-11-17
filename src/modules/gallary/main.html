@@ -1,21 +1,66 @@
+<style>
+    .test{
+        position: relative;
+    }
+    .test>div{
+        position: relative;
+    }
+    .test img{
+        width: 100%;
+    }
+    .test .lit-card .card-pic{
+        height: auto;
+        padding-bottom: 0;
+    }
+    .test .lit-card{
+        float: left;
+        width: 50%;
+    }
+</style>
 <div class="dock-fill scroll-y my-gallary" scroll-listen>
-   <!-- <div  class="water-fall">
+    <!--<div  class="water-fall">
        <div water-fall-layout
             class="wf-main"
             id="gallaryWater"
             wf-container = "{{'gallaryWater'}}"
             wf-col="{{gc.gallary.col}}"
             wf-count="{{gc.gallary.count}}"
-            wf-data = "gc.gallaryData"
-       ></div>
-   		<div card-blk></div>
-   </div> -->
+            wf-data = "gc.gallaryData">
+           <div class="wf-cld lit-card" ng-click='gc.showBig($event)' ng-repeat='g in gc.gallarys'>
+               <div class="card-pic" pic-id="{{g.id}}"  pic-url="{{g.url}}" style="background-image:url({{g.url}})">
+               </div>
+               <p class="card-desc">
+                   {{g.desc}}
+               </p>
+           </div>
+       </div>
 
+   </div>-->
+    <div class="test">
+        <div class="lit-card" ng-click='gc.showBig($event)' ng-repeat='g in gc.gallarys'>
+            <div class="card-pic" pic-id="{{g.id}}"  pic-url="{{g.url}}" style="background-image:url({{g.url}})">
+                <img pic-id="{{g.id}}"  pic-url="{{g.url}}" src="{{g.url}}" alt="">
+            </div>
+            <p class="card-desc">
+                {{g.desc}}
+            </p>
+        </div>
+        <div class="lit-card" ng-click='gc.showBig($event)' ng-repeat='g in gc.gallarys'>
+            <div class="card-pic" pic-id="{{g.id}}"  pic-url="{{g.url}}" style="background-image:url({{g.url}})">
+                <img src="{{g.url}}" pic-id="{{g.id}}"  pic-url="{{g.url}}" alt="" ng-click='gc.showBig($event)'>
+            </div>
+            <p class="card-desc">
+                {{g.desc}}
+            </p>
+        </div>
+    </div>
+
+<!--
    <div class="lit-card" ng-click='gc.showBig($event)' ng-repeat='g in gc.gallarys'>
-     <div class="card-pic"  pic-url="{{g.url}}" style="background-image:url({{g.url}})">
+     <div class="card-pic" pic-id="{{g.id}}"  pic-url="{{g.url}}" style="background-image:url({{g.url}})">
      </div>
      <p class="card-desc">
        {{g.desc}}
      </p>
-   </div>
+   </div>-->
 </div>
