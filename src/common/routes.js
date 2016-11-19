@@ -42,7 +42,7 @@ angular
             ctrl: "gallaryCtrl",
             ctrlAs: "gc",
             icon: "my-icon-edit",
-            hideBar:'bot'
+            hideBar:'both'
         }
     ])
     .value("LoadedModules", [])

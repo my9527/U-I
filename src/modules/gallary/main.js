@@ -16,8 +16,6 @@ angular
 			init();
 
 			function init(){
-				// 加载 masnory 插件
-				loadMasonry();
 
 				view.gallarys = [
 					{
@@ -46,6 +44,10 @@ angular
 						id: 4
 					}
 				]
+
+				eventListener.sub('scrollRefreshs', function (dy) {
+					console.log('refresh', dy)
+				})
 			}
 			view.showBig = showBig;
 			function showBig(e){
@@ -59,45 +61,6 @@ angular
 					eventListener.trigger('myJigsawViewshow')(t.url, t.desc)
 				}
 
-			}
-
-			function loadMasonry(){
-				myLoader.loadJs("http://cdn.bootcss.com/jquery/3.1.1/jquery.js")
-					.then(function () {
-						myLoader.loadJs("http://cdn.bootcss.com/masonry/3.1.2/masonry.min.js")
-
-							.then(function () {
-								setWaterFall("test");
-							})
-					})
-			}
-
-			function setWaterFall(cid) {
-				var container = document.querySelector("."+cid);
-				/*$('#'+cid).masonry({
-				 columnWidth: "50%",
-				 itemSelector: '.jigsaw-item'
-				 });*/
-				/*var $container = $('#masonry');
-				$container.imagesLoaded( function(){
-					$container.masonry({
-						itemSelector : '.box',
-						gutterWidth : 20,
-						isAnimated: true,
-					});
-				});*/
-				// $timeout(function(){
-					console.log(container)
-					new Masonry(container,{
-						columnWidth: 100,
-						itemSelector: '.lit-card'
-					});
-				// }, 3000);
-				// // var waterLayout =
-				myHttp.get("", "http://localhost:3001/getjson/gallary")
-					.then(function (data) {
-						console.log(data, "This is a API test")
-					})
 			}
 		}
 	])

@@ -8,6 +8,7 @@ angular
 		"common.myLoader",
 		"common.eventListener",
 		"common.myDirectives",
+		"common.navbar",
 		"common.utils",
 		"common.http",
 		"module.home"
@@ -20,10 +21,11 @@ angular
 		"myGLOBAL",
         "$timeout",
 		"utils",
-    	function($location, $rootScope, $q, myGLOBAL, $timeout, utils){
+		"navBarFactory",
+    	function($location, $rootScope, $q, myGLOBAL, $timeout, utils, navBarFactory){
 
 		console.log("myGLOBAL: " , myGLOBAL);
-
+		var indexUrls = ["/home", "/food"];
 
 			$location.path("/home");
     	//检查是否已经加载过模块
@@ -33,31 +35,26 @@ angular
 				return $location.path("/home");
 			}
     	});
-        /*$rootScope.$on("$routeChangeStart", function(evt, next, cur){
-            var excludeRoute = ["/home"];
-            var route = next && next.$$route;
-            if(!route )return;
-            var url = next.$$route.originalPath;
-            var ele = angular.element(document.querySelector("#footbar"));
-            if(-1 == excludeRoute.indexOf(url)){
 
-                ele.addClass("fadeOutDown");
-                $timeout(function(){
-                    ele.removeClass("fadeOutDown");
-                    ele.css("display", "none");
-                },100);
-            }else{
-                if(cur && excludeRoute.indexOf(cur.$$route.originalPath)!=-1){
+		//处理返回按钮
+        $rootScope.$on("$routeChangeStart", function(evt, next, cur){
+        	console.log(next, cur);
+            if(next && next.$$route){
+				// navBarFactory.isHideBack = true;
+				if(-1 == indexUrls.indexOf(next.$$route.originalPath)){
+					navBarFactory.isHideBack = true;
 
-                }else{
-                    ele.css("display", "");
-                    ele.addClass("fadeInUp");
-                    $timeout(function(){
-                        ele.removeClass("fadeOutDown");
-                    },100);
-                }
-            }
-        });*/
+				}else{
+					navBarFactory.isHideBack = false;
+
+				}
+			}else{
+				// navBarFactory.isHideBack = false;
+			}
+			navBarFactory.navBtns.length = 0;
+			// var title =
+			cur && navBarFactory.setTitle(cur.name|| "My Cordova")
+        });
         //
 
 
@@ -72,8 +69,9 @@ angular
 		"utils",
 		"myLoader",
 		"eventListener",
+		"myNavBar",
         function($scope, $location, $timeout, myGLOBAL, utils, myLoader
-        	, eventListener){
+        	, eventListener, myNavBar){
             var view = this;
 
 			init();
@@ -119,6 +117,7 @@ angular
 				}
 				activeTab(view.tabs[0]);
 
+				myNavBar.setTitle("My Cordova");
 				$timeout(function(){
 					view.status.pageShow = true;
 				});
@@ -145,10 +144,7 @@ angular
 				};
 				eventListener.sub('myHideAnimateBar', hideBarFunc, "myHideAnimateBar")
 				function hideBarFunc(target) {
-					console.log("trigger myHideAnimateBar", target)
-					if(target){
-						view.hideBar[target] = true;
-					}
+					target && (view.hideBar[target] = true);
 				}
 
 				// 设置ng-view 背景模糊；
@@ -339,7 +335,13 @@ angular
 				eventListener.sub('myHideAnimateBar', hideBarFunc, "myHideAnimateBar")
 				function hideBarFunc(target) {
 					console.log(target, barName);
-					barName && barName == target && (myGLOBAL.setting[target] = hideBar = true);
+					// 增加both 处理方案
+					if(target == 'both' || barName == target){
+						myGLOBAL.setting[barName] = hideBar = true;
+						console.log("trigger enter")
+						// enter();
+					}
+					// barName && barName == target && (myGLOBAL.setting[target] = hideBar = true);
 				}
 
 				// eventListener.sub('myHideAnimateBar', hideBarFunc, "myHideAnimateBar")
@@ -370,7 +372,7 @@ angular
 
 				function leave() {
 					console.log(myGLOBAL.setting[barName], barName)
-					if(myGLOBAL.setting[barName])return;
+					if(!myGLOBAL.setting[barName])return;
 					console.log("up",Date.now())
 					$ele.addClass(animateClass[0]);
 					$ele.addClass(animateCommonClass);
@@ -385,7 +387,7 @@ angular
 				}
 				
 				function enter() {
-					if(myGLOBAL.setting[barName])return;
+					if(!myGLOBAL.setting[barName])return;
 					console.log("down", Date.now())
 					$ele.removeClass("ng-hide");
 					// $ele.css("display", "");
@@ -415,7 +417,7 @@ angular
 				link: function (scope, ele) {
 					$timeout(function () {
 						ele.removeClass("delay")
-					},1000)
+					},500)
 				}
 			}
 		}

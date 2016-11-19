@@ -19,7 +19,9 @@ angular
         "myGLOBAL",
         "utils",
         "eventListener",
-        function ($scope, $sce, $timeout, myGLOBAL, utils, eventListener) {
+        "navBarFactory",
+        "myNavBar",
+        function ($scope, $sce, $timeout, myGLOBAL, utils, eventListener, navBar, myNavBar) {
             var view = this;
 
             init();
@@ -32,26 +34,6 @@ angular
 
             function init() {
                 view.modules = [{
-                    name: "吃货",
-                    url: "",
-                    icon: 'my-icon-zoom-in'
-                },{
-                    name: "游玩",
-                    url: "",
-                    icon: 'my-icon-stop'
-                },{
-                    name: "电影",
-                    url: "",
-                    icon: 'my-icon-friends'
-                },{
-                    name: "服装",
-                    url: "",
-                    icon: 'my-icon-send'
-                },{
-                    name: "数码",
-                    url: "",
-                    icon: 'my-icon-geo-flag'
-                },{
                     name: "地图",
                     url: "/map",
                     icon: 'my-icon-geo'
@@ -61,8 +43,8 @@ angular
                     icon: 'my-icon-upload'
                 },{
                     url: "/gallary",
-                    name: "gallary",
-                    icon: "my-icon-edit"
+                    name: "相册",
+                    icon: "my-icon-graphic-detail"
                 }];
 
                 addEmptyModule(view.modules);
@@ -80,8 +62,28 @@ angular
                         url: 'http://pic.4j4j.cn/upload/pic/20160518/11d601e0b3.jpg',
                         desc: '3'
                     }
-                ]
+                ];
                 view.jigsawUrl = null;
+
+                var a = myNavBar.addBtn({
+                    id:"myNavBar",
+                    icon: "my-icon-search",
+                    actionFn: function () {
+                        console.log("gaga, this is navBar actived")
+                    }
+                });
+                var b = myNavBar.addBtn({
+                    icon: "my-icon-talk",
+                    actionFn: function () {
+                        console.log("This is v-up");
+                    }
+                });
+
+                $timeout(function () {
+                    a.hide = true;
+                }, 10000);
+                // console.log(a.id);
+                // a.actionFn();
             }
 
             view.showJigsaw = showJigsaw;

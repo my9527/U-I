@@ -524,13 +524,19 @@ angular
         }
     ])
 
+    /**
+     * 主要用于页面滚动
+     */
     .directive('scrollListen',  [
         "$rootScope",
         "$timeout",
-        function ($rootScope, $timeout) {
+        "eventListener",
+        function ($rootScope, $timeout, eventListener) {
             function link($scope, $ele){
                 var scrollFlag = false;
                 var scrollTimer = null;
+                var isTop = false;
+
                 var start = {
                     x: 0,
                     y: 0
@@ -539,27 +545,30 @@ angular
                     x: 0,
                     y: 0
                 };
+                var nowTop = 0;
+                var refreshNum = 0;
+
                 $ele.bind('touchstart', function (evt) {
+                    nowTop = $ele[0].scrollTop;
+                    isTop = checkIfTop($ele[0].scrollTop);
                     if(scrollFlag)return;
                     start.x= evt.changedTouches[0].screenX;
                     start.y= evt.changedTouches[0].screenY;
 
                 });
                 $ele.bind('touchmove', function (evt, A) {
+                    // console.log(evt.changedTouches[0].screenY-start.y)
+
+                    isTop = checkIfTop(nowTop-evt.changedTouches[0].screenY+start.y);
+                    isTop && checkIfRefresh(evt.changedTouches[0].screenY-start.y-nowTop);
                     if(scrollFlag)return;
                     scrollTimer = $timeout(function () {
                             end.x= evt.changedTouches[0].screenX;
                             end.y= evt.changedTouches[0].screenY;
-                            /*if(end.y<start.y){
-                                console.log("scrollUp", Date.now());
-                                $rootScope.$broadcast("scrollUp");
-                            }else{
-                                console.log("scrollDown" , Date.now());
-                                $rootScope.$broadcast("scrollDown")
-                            }*/
+
                             var dy = end.y-start.y>0?true:false;
-                                dy &&  $rootScope.$broadcast("scrollDown");
-                                !dy &&  $rootScope.$broadcast("scrollUp");
+                            dy &&  $rootScope.$broadcast("scrollDown");
+                            !dy &&  $rootScope.$broadcast("scrollUp");
 
                             scrollFlag = true;
                             scrollTimer = null;
@@ -569,10 +578,59 @@ angular
                 $ele.bind('touchend', function () {
                     scrollFlag = false;
                     scrollTimer = null;
+                    refreshNum = 0;
+                    isTop && eventListener.trigger('refreshRelease')();
+                });
 
+                function checkIfRefresh(dpos){
+                    // console.log("check if top", dpos);
+                    dpos>5 && refreshNum++;
+                    refreshNum%5==0 && dpos>5 && eventListener.trigger('scrollRefreshs')(dpos);
+
+                    if(dpos>12){
+                        // eventListener.trigger('scrollRefresh')()
+                    }
+                }
+
+                function checkIfTop(pos) {
+                    return pos<=0;
+                }
+
+
+            }
+            return{
+                link: link
+            }
+        }
+    ])
+
+    .directive('myRefresh', [
+        "eventListener",
+        "$timeout",
+        function (eventListener, $timeout) {
+            function link($scope, $ele) {
+                var poss = [];
+                var hasAdd = false;
+                eventListener.sub('scrollRefreshs', function (pos) {
+                    console.log(pos*0.2);
+                    !hasAdd && $ele.addClass('my-refresh-animate');
+                    hasAdd = true;
+                    poss.push(pos*0.5);
+                    $ele.css("transform","translateY("+pos*0.3+"px) rotate("+ pos*0.2/10*360+"deg)")
+                });
+
+                eventListener.sub('refreshRelease', function () {
+                    // $ele.addClass('my-refresh-animate');
+                    hasAdd = false;
+                    $ele.removeClass("my-refresh-animate")
+                    $ele.css("top","40px");
+                    $ele.addClass('my-refresh-rotate')
+                    $timeout(function () {
+                        $ele.removeClass('my-refresh-rotate');
+                        $ele.css("top","0px");
+                        $ele.css("transform","translateY(0px) rotate(0deg)");
+                    },3000)
                 })
-
-
             }
             return{
                 link: link

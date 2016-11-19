@@ -16,6 +16,7 @@ angular
                 },
                 setting: {
                   hideBar: {
+                      both: false,
                       top: false,
                       bot: false
                   }

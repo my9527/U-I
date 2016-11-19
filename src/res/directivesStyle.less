@@ -184,3 +184,68 @@
         font-size: 14px;
     }
 }
+
+.my-nav-bar{
+    //position: absolute;
+    width: 100%;
+    padding: 0em 0.8em;
+    font-size: 1.2em;
+    height: 100%;
+    .nav-btn{
+        padding: 1em 0.5em;
+    }
+    .title-btn{
+        color: white;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .act-btns{
+        position: relative;
+        float: right;
+        padding-left: 1.2rem;
+    }
+    .back-btn{
+        position: absolute;
+        padding-left: 0;
+    }
+}
+.my-refresh-animate{
+    -webkit-animation-duration: 2s;
+    animation-duration: 2s;
+    transition-duration: 2s;
+    transition-timing-function: linear;
+}
+
+@keyframes my-refresh-animation{
+    0% {
+        transform: rotate(0deg) ;
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.my-refresh-rotate{
+    animation-duration: 3s;
+    animation-iteration-count: 3;
+    transform-origin: center;
+    animation-name: my-refresh-animation;
+}
+.my-refresh{
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    //left: 50%;
+    margin: 0 auto;
+    //transform: translateX(-50%);
+    top: 0;
+    color: #3BB3C2;
+    font-size: 2rem;
+    z-index: 1;
+}
+.my-icon-refresh{
+    position: absolute;
+    top: 0;
+    margin-left: -0.5em;
+}

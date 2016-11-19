@@ -14,36 +14,55 @@ angular
 
             init();
             function init(){
-
-                view.bindEvent = function () {
-                    console.log("This is a test");
-                };
-                var eventid = eventListener.sub('test', function () {
-                    console.log("This is a test with id");
-                });
-
-                // Test decorator
-                var tmp = decoratorFunc.before(t, b);
-                tmp = decoratorFunc.after(tmp, af);
-
-                function af() {
-                    console.log("This is afterFn")
-                }
-                eventListener.sub('test', tmp);
-                function t(tt){
-                        console.log("This is a test without id", tt);
-                }
-
-                function b(){
-                    console.log("This is before fn")
-                }
-                $timeout(function () {
-                    eventListener.trigger('test')("nihao");
-                    // eventListenr.trigger('test', eventid)("nihao");
-                }, 1000)
+                eventListener.sub('scrollRefreshs', function (dd) {
+                    console.log(dd);
+                })
             }
 
 
+        }
+    ])
+    .factory("myMapFacory", [
+        function () {
+            function Map(){
+                this.map = null;
+            }
+            var _proto = {
+                init: initMap
+            }
+
+            /**
+             * 创建地图实例
+             * 并根据mapOpts 进行相应的初始化
+             * @param mapId
+             * @param mapOpts
+             */
+            function initMap(mapId, mapOpts){
+                var defaultOpts = {
+                    cityName: '',
+                    center: null,
+                    controls: true,
+                    enableZoom: true
+                };
+                // 功能映射表，方便以后扩展其他功能
+                var fnOptsMap = {
+                    center: 'centerAndZoom',
+                    controls: 'addControl',
+                    cityName: 'setCurrentCity',
+                    enableZoom:  'enableScrollWheelZoom'
+                };
+
+                angular.extend(mapOpts, defaultOpts);
+                var map = new BMap.Map(mapId);
+
+                for(var i in fnOptsMap){
+                    if(defaultOpts[i]){
+                        map[fnOptsMap[i]](mapOpts[i]);
+                    }
+                }
+
+                return;
+            }
         }
     ])
     .directive("myMap1", [
@@ -149,7 +168,7 @@ angular
         }
 
           /**
-           * 地图时间绑定
+           * 地图事件绑定
            * @param map
            * @param eventType
            * @param eventFunc
