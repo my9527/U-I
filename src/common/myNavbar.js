@@ -136,6 +136,10 @@ angular
             this.setTitle = function (title) {
                 return navBarFactory.setTitle(title);
             }
+
+            this.hide = function () {
+                return navBarFactory.hide();
+            }
         }
     ])
 

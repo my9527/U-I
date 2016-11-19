@@ -611,9 +611,10 @@ angular
             function link($scope, $ele) {
                 var poss = [];
                 var hasAdd = false;
+                $ele.addClass('ng-hide');
                 eventListener.sub('scrollRefreshs', function (pos) {
                     console.log(pos*0.2);
-                    !hasAdd && $ele.addClass('my-refresh-animate');
+                    !hasAdd && $ele.addClass('my-refresh-animate').removeClass('ng-hide');
                     hasAdd = true;
                     poss.push(pos*0.5);
                     $ele.css("transform","translateY("+pos*0.3+"px) rotate("+ pos*0.2/10*360+"deg)")
@@ -626,6 +627,7 @@ angular
                     $ele.css("top","40px");
                     $ele.addClass('my-refresh-rotate')
                     $timeout(function () {
+                        $ele.addClass('ng-hide');
                         $ele.removeClass('my-refresh-rotate');
                         $ele.css("top","0px");
                         $ele.css("transform","translateY(0px) rotate(0deg)");
