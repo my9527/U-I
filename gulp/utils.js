@@ -6,25 +6,24 @@ var utils = {
     log: logFn
 };
 
-function sliceFn(obj) {
-    return Array.prototype.slice.call(this, obj);
+function sliceFn(obj, index) {
+    index = index || 0;
+    return Array.prototype.slice.call(obj, index);
 }
 
 function logFn(msg, specfix, isObj) {
-    var args = sliceFn(arguments);
+    var args = sliceFn(arguments, 1);
     specfix = specfix || "Attention";
-    // args.push("[----"+ specfix +"----]--->");
-    // return console.log.apply(console, args);
-
+    args.push("[----"+ specfix +"----]--->"+msg);
     if(isObj){
         var str = "\n";
         var o = Object.keys(msg);
         o.forEach(function (item) {
             str += item +": "+msg[item]+"\n";
         });
-        return console.log("[----"+ specfix +"----]--->" + str);
+        args.push(str);
     }
-    return console.log("[----"+ specfix +"----]--->" + msg);
+    return console.log.apply(console, args);
 }
 
 module.exports = utils;

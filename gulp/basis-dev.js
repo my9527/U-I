@@ -31,14 +31,14 @@ function dev_html(module, isArray) {
  * @returns {*}
  */
 function dev_js(module) {
-    utils.log("dev"+module);
+    utils.log("dev "+module+ " js");
     var opts = resolvePaths("js", module);
 
     return gulp.src(opts.files)
             .pipe(concat(module+"main.js"))
             .pipe(gulp.dest(opts.dest))
             .on('end', function () {
-                utils.log(module+"finished");
+                utils.log(module+" js finished");
             })
 }
 
@@ -129,9 +129,6 @@ function dev_libs() {
     // var files = [config.src.libs+"/**/*.js", config.src.libs+"/*.js"];
     var files = ["src/libs/**/*.js", "src/libs/*.js"];
     var dest = config.dist.libs;
-    utils.log("+++++++++++++++++++++++++");
-    utils.log(files.join("----"));
-    utils.log("+++++++++++++++++++++++++");
 
     return gulp.src(files, {base: '.'})
         .pipe(order(["src/libs/angular.js", "src/libs/*.js"], {base:'.'}))

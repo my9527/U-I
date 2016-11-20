@@ -179,8 +179,8 @@ function copyWWW() {
     });
     paths.push(config.dist.base+"/css/style.css");
     paths.push(config.dist.base+"/css/**/*.*");
-    paths.push("!"+config.dist.base+"/css/**/*.{css}");
     paths.push(config.dist.base+"/index.html");
+
     return gulp.src(config.dist.base+"/**/*")
     // return gulp.src(paths, {base: './www'})
         .pipe(gulp.dest(config.app.www))
