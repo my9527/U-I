@@ -6,16 +6,15 @@
  *
  */
 1、初始化工程
-    // 从git 迁下工程
+    1.1 从git 迁下工程
     git clone https://github.com/my9527/U-I.git
-    // 进入工程
+    1.2 进入工程
     cd U-I
-    // 安装npm 插件
+    1.3 安装npm 插件
     npm install
 
-    // 更新代码
+    1.4 更新代码
     git fetch
-    //
     git rebase origin/master
 
 2、开发命令说明
