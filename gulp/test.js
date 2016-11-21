@@ -6,10 +6,11 @@ var utils = require("./utils");
 var config = gulp.config;
 var runSequence = require('gulp-sequence');
 
-// 命令输入格式
-// gulp test --task  task(待执行的任务)
 
 /**
+ * 执行命令格式
+ * gulp test --task  task(待执行的任务)
+ *
  * 已有任务
  *
  * ********  编译  *******
