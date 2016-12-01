@@ -56,29 +56,6 @@ app.config(function($routeProvider, $controllerProvider, $compileProvider, $filt
                         controller: item.ctrl,
                         controllerAs: item.ctrlAs,
                         templateUrl: item.tmp,
-                        /*resolve: {
-                            // console.log("This is resolve")
-                            loadModule: ["$q","$timeout", "$rootScope", function($q, $timeout, $rootScope){
-                                var d = $q.defer();
-                                if(routes.indexOf(item.name) != -1){
-                                    d.resolve();
-                                    return d.promise;
-                                }
-                                loadModules(item.name, $timeout, $q)
-                                    .then(function(){
-                                        routes.push(item.name);
-                                        d.resolve();
-                                    });
-
-                                return d.promise;
-
-                            }],
-                            // 是否开启animateBar
-                            isHideBar: ["eventListener", function (eventListener) {
-                                // 减少不必要的触发
-                                item.hideBar && eventListener.trigger('myHideAnimateBar')(item.hideBar);
-                            }]
-                        }*/
                         resolve: angular.extend({}, resolveObj, defaultResolve)
                     })
             });

@@ -174,12 +174,12 @@ function copyWWW() {
     // 因css 缘故，copy 将对css文件夹单独处理
     var folders = ["html",  "js", "libs"];
     var paths = [];
-    folders.forEach(function (item) {
-        paths.push(config.dist.base+"/"+item+"/*");
-    });
-    paths.push(config.dist.base+"/css/style.css");
-    paths.push(config.dist.base+"/css/**/*.*");
-    paths.push(config.dist.base+"/index.html");
+    // folders.forEach(function (item) {
+    //     paths.push(config.dist.base+"/"+item+"/*");
+    // });
+    // paths.push(config.dist.base+"/css/style.css");
+    // paths.push(config.dist.base+"/css/**/*.*");
+    // paths.push(config.dist.base+"/index.html");
 
     return gulp.src(config.dist.base+"/**/*")
     // return gulp.src(paths, {base: './www'})
