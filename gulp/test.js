@@ -43,20 +43,28 @@ var runSequence = require('gulp-sequence');
  * @type {any}
  */
 
-
 var args = process.argv.slice(3);
+var task = [];
+var tasks = [];
+
+
+args && init();
+
+function init() {
+
 
 // var mode = args[0];
+    if(!args)return;
+    task = args[1].replace(/\-\-/g,"");
+    utils.log(args);
+    utils.log('mission: '+" gulp "+task);
 
-var task = args[1].replace(/\-\-/g,"");
-utils.log(args);
-utils.log('mission: '+" gulp "+task);
 
-var tasks = [];
     // 可以只执行clean 任务，
     -1 == task.indexOf("clean") && tasks.push("clean-www");
     tasks.push("get-modules");
     tasks.push(task);
+}
 /**
  * 测试用
  * 由于是基于模块的构建，所以需依赖 get-modules
