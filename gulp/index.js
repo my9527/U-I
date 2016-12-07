@@ -32,6 +32,7 @@ function getModules(){
         })
 }
 require("./tasks");
-require("./test");
+// require("./test");
 
 gulp.task("dev", runSequence('clean-www','get-modules', ['dev-js', 'dev-html', 'dev-less', 'dev-index', 'dev-common'], ['dev-res', 'dev-libs'],'start-server', ['watch:modules', 'watch:common', 'watch:res']))
+gulp.task("build", runSequence('clean-www','get-modules', ['dev-js', 'dev-html', 'dev-less', 'dev-index', 'dev-common'], ['dev-res', 'dev-libs'], 'build-apk'));

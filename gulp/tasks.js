@@ -201,3 +201,8 @@ function cleanApp() {
 gulp.task("start-server", function () {
     return initServer();
 });
+
+gulp.task("build-apk", function () {
+    var build_apk = require("./build-apk");
+    return build_apk.build();
+});

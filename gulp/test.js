@@ -48,13 +48,13 @@ var task = [];
 var tasks = [];
 
 
-args && init();
+-1 !== args.indexOf('test') && init();
 
 function init() {
 
 
 // var mode = args[0];
-    if(!args)return;
+    if(-1 !== args.indexOf('test'))return;
     task = args[1].replace(/\-\-/g,"");
     utils.log(args);
     utils.log('mission: '+" gulp "+task);
