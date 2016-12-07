@@ -174,6 +174,22 @@ function copyWWW() {
     // 因css 缘故，copy 将对css文件夹单独处理
     var folders = ["html",  "js", "libs"];
     var paths = [];
+    var filepath = [config.dist.base+"/**/*"];
+
+
+    var _excludeModules = config.build.excludeModules || [];
+
+    if(_excludeModules || _excludeModules.length){
+        _excludeModules.forEach(function (item) {
+            var tmpHTML = "!"+config.dist.base+"/html/"+item+"/*";
+            var tmpJS = "!"+config.dist.base+"/js/"+item+"main.js";
+                filepath.push(tmpHTML, tmpJS);
+        })
+    }
+    utils.log(filepath);
+
+
+
     // folders.forEach(function (item) {
     //     paths.push(config.dist.base+"/"+item+"/*");
     // });
@@ -181,7 +197,7 @@ function copyWWW() {
     // paths.push(config.dist.base+"/css/**/*.*");
     // paths.push(config.dist.base+"/index.html");
 
-    return gulp.src(config.dist.base+"/**/*")
+    return gulp.src(filepath)
     // return gulp.src(paths, {base: './www'})
         .pipe(gulp.dest(config.app.www))
 }

@@ -38,6 +38,10 @@ var config = {
 		root: './www'
 		
 	},
+	// 打包时排出的模块
+	build: {
+		excludeModules: ['movies']
+	},
 
 	//cordova run android --release -- --keystore=../my-release-key.keystore --storePassword=password --alias=alias_name --password=password
 	keystore:{
