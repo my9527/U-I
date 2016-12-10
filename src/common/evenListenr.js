@@ -52,7 +52,7 @@ angular
                 }
 
                 if(signal && id){
-                    signalsPool[signal].forEach(function (item, index, arr) {
+                    signalsPool[signal] && signalsPool[signal].forEach(function (item, index, arr) {
                         if(item.id == id){
                             item = null;
                         }
@@ -66,7 +66,7 @@ angular
             function trigger(signal, id, context){
                 return function(opts){
                     var args = Array.prototype.slice.call(arguments);
-                    signalsPool[signal].forEach(function (item) {
+                    signalsPool[signal] && signalsPool[signal].forEach(function (item) {
                         if(id && item.id !== id){
                             return;
                         }
