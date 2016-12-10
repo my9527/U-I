@@ -20,6 +20,7 @@ var order = require("gulp-order");
 function dev_html(module, isArray) {
     var opts = resolvePaths("html", module);
     utils.log(module);
+    utils.log(opts.files);
     return gulp.src(opts.files, {base: './src/modules'})
             .pipe(gulp.dest(opts.dest));
 }
@@ -160,7 +161,7 @@ function resolvePaths(type, module){
  */
 function concatCss() {
     return gulp.src(["www/css/*.css", "!www/css/style.css"])
-        // .pipe(order(["www/css/res.css", "www/css/index.css", "www/css/*.css"], {base: '.'}))
+        .pipe(order(["www/css/res.css", "www/css/index.css", "www/css/*.css"], {base: '.'}))
         .pipe(concat("style.css"))
         .pipe(gulp.dest("./www/css/"))
 

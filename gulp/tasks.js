@@ -113,7 +113,7 @@ gulp.task("watch:modules", function () {
                 if(module == "index" ){
                     devIndex();
                 }else{
-                    dev_basis.dev_html(_module, false);
+                    dev_basis.dev_html(module, false);
                 }
                 break;
             }
@@ -121,12 +121,11 @@ gulp.task("watch:modules", function () {
 
             }
             case '.css':{
-                    Promise.resolve(function () {
-                        dev_basis.dev_less(module);
-                    })
-                        .then(function () {
+                    dev_basis.dev_less(module)
+                        .on('end', function () {
                             dev_basis.concat_css();
-                        });
+
+                        })
                 break;
             }
         }
