@@ -14,6 +14,8 @@ var path = require("path");
 var filter = require("gulp-filter");
 var concat = require("gulp-concat");
 var del = require("del");
+var uglify = require("gulp-uglify");
+var gulpIf = require("gulp-if");
 // utils.log(config.src, null, true);
 // var server = require("./server");
 
@@ -174,7 +176,7 @@ function copyWWW() {
     var folders = ["html",  "js", "libs"];
     var paths = [];
     var filepath = [config.dist.base+"/**/*"];
-
+    var isCompress = process.argv.slice(0).indexOf('-p')>-1?true:false;
 
     var _excludeModules = config.build.excludeModules || [];
 
@@ -198,7 +200,13 @@ function copyWWW() {
 
     return gulp.src(filepath)
     // return gulp.src(paths, {base: './www'})
-        .pipe(gulp.dest(config.app.www))
+        .pipe(gulpIf(checkIfCompress,  uglify()))
+        .pipe(gulp.dest(config.app.www));
+
+    function checkIfCompress(file) {
+        return path.extname(file.path).indexOf('js')>-1 && isCompress;
+    }
+
 }
 
 gulp.task('clean-www', cleanWWW);

@@ -11,6 +11,10 @@ var gulpIf = require("gulp-if");
 var path = require("path");
 var server = require("./server");
 var order = require("gulp-order");
+var uglify = require("gulp-uglify");
+
+var isCompress = process.argv.slice(0).indexOf('-p')>-1?true:false;
+
 /**
  * 复制 html
  * 待优化，只处理改变的文件
