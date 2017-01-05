@@ -42,7 +42,10 @@ function buildApk(){
     shell.exec("start "+ path.normalize(pwd+apk));
 
     shell.cd("app");
-    shell.exec("cordova build android");
+    var ifSign = process.agrv.slice(0).indexOf("-s")>-1?' --release':'';
+    var cmd = "cordova build android"+ ifSign;
+
+    shell.exec();
 
 }
 
