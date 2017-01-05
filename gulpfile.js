@@ -5,4 +5,4 @@ var gulp = require("gulp");
 var config = require("./config.js");
 
 gulp.config = config;
-require("./gulp");
+require("./gulp-es6");
